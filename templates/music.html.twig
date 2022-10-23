@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GOES - Music Creator{% endblock %}
+{% block content %}
+
+    <h1>Music Creator</h1>
+
+    <form action="#" method="post" enctype="multipart/form-data">
+        <h2>Metadata</h2>
+        <div class="mb-3">
+            <label for="user_identifier" class="form-label">Your identifier</label>
+            <input type="text" pattern="[a-z_]+" class="form-control" id="user_identifier" name="user_identifier" aria-describedby="user_identifier_help">
+            <div id="user_identifier_help" class="form-text">Usually similar to your user handle. This should be the same for all of your objects. a-z and underscores only. E.g.: <i>jalmaan</i></div>
+        </div>
+        <div class="mb-3">
+            <label for="object_identifier" class="form-label">Object identifier</label>
+            <input type="text" pattern="[a-z_]+" class="form-control" id="object_identifier" name="object_identifier" aria-describedby="object_identifier_help">
+            <div id="object_identifier_help" class="form-text">A short, unique name for your object. a-z and underscores only. E.g. <i>acid_style</i></div>
+        </div>
+        <div class="mb-3">
+            <label for="creators_names" class="form-label">Creator’s name(s)</label>
+            <input type="text"  class="form-control" id="creators_names" name="creators_names" aria-describedby="creators_names_help">
+            <div id="creators_names_help" class="form-text">The names of the people who created this object, separated by commas. E.g. <i>Karst van Galen Last</i></div>
+        </div>
+        <div class="mb-3">
+            <label for="style_description" class="form-label">Style description</label>
+            <input type="text" class="form-control" id="style_description" name="style_description" aria-describedby="style_description_help">
+            <div id="style_description_help" class="form-text">The name of the music style, as it appears in the Object Selection and music style dropdown. E.g.: <i>Acid Style</i></div>
+        </div>
+{#        <div class="mb-3 form-check">#}
+{#            <input type="checkbox" class="form-check-input" id="exampleCheck1">#}
+{#            <label class="form-check-label" for="exampleCheck1">Check me out</label>#}
+{#        </div>#}
+
+        <h2>Music files</h2>
+        <p>Each music styles can have multiple tracks, although most styles will likely have a single track. You can leave tracks 2 and 3 blank if this is the case. <b>Music must be in OGG format.</b></p>
+
+        {% for i in 1..maxTracks %}
+            <h3>Track {{ i }}{% if loop.first %} (required){% endif %}</h3>
+
+            <div class="mb-3">
+                <label for="track_{{ i }}_upload" class="form-label">Upload</label>
+                <input type="file" class="form-control" id="track_{{ i }}_upload" name="track_{{ i }}_upload" {% if loop.first %} required {% endif %} aria-describedby="track_{{ i }}_upload_help">
+                <div id="track_{{ i }}_upload_help" class="form-text">The music file itself.</div>
+            </div>
+            <div class="mb-3">
+                <label for="track_{{ i }}_name" class="form-label">Track name</label>
+                <input type="text" class="form-control" id="track_{{ i }}_name" name="track_{{ i }}_name" aria-describedby="track_{{ i }}_name_help">
+                <div id="track_{{ i }}_name_help" class="form-text">Name of this track. May be left blank. E.g.: <i>Airtime Junkies</i></div>
+            </div>
+            <div class="mb-3">
+                <label for="track_{{ i }}_composer" class="form-label">Composer</label>
+                <input type="text" class="form-control" id="track_{{ i }}_composer" name="track_{{ i }}_composer" aria-describedby="track_{{ i }}_composer_help">
+                <div id="track_{{ i }}_composer_help" class="form-text">Composer of this track. May be left blank. E.g.: <i>Jalmaan</i></div>
+            </div>
+        {% endfor %}
+
+        <h2>All done?</h2>
+        
+        <button type="submit" class="btn btn-primary">Create</button>
+
+    </form>
+
+{% endblock %}
+
