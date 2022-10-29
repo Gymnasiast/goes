@@ -11,4 +11,5 @@ final class MusicObject extends BaseObject
     }
 
     public array $properties = [];
+    public array $images = [];
 }

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\OpenRCT2\MusicObject;
 use App\OpenRCT2\ObjectSerializer;
+use GdImage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
@@ -13,13 +14,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use ZipArchive;
 use function file_get_contents;
+use function imagecreatefrompng;
 use function tempnam;
 use function unlink;
-use function var_dump;
 
 final class Music extends AbstractController
 {
     private const MAX_MUSIC_TRACKS = 3;
+
+    private const FILE_FORMAT = [
+        'audio/ogg' => 'ogg',
+    ];
 
     #[Route('/music', methods: ['GET', 'HEAD'])]
     public function showForm(): Response
@@ -32,6 +37,7 @@ final class Music extends AbstractController
     #[Route('/music', methods: ['POST'])]
     public function process(Request $request): Response
     {
+
         $post = $request->request;
         $userIdentifier = $post->get('user_identifier');
         $objectIdentifier = $post->get('object_identifier');
@@ -39,6 +45,7 @@ final class Music extends AbstractController
         $creators = explode(',', $post->get('creators_names'));
         $creators = array_map('trim', $creators);
         $styleDescription = $post->get('style_description');
+        $previewImage = $this->getPreviewImage($request);
 
         $tracks = [];
         $filemap = [];
@@ -52,11 +59,17 @@ final class Music extends AbstractController
 
             $extension = $upload->getClientOriginalExtension();
             $newFilename = "music/{$newIndex}.{$extension}";
-            $tracks[] = [
+            $trackName = trim($post->get("track_{$i}_name", ''));
+            $composer = trim($post->get("track_{$i}_composer", ''));
+            $entry = [
                 'source' => $newFilename,
-                'name' => $post->get("track_{$i}_name", ''),
-                'composer' => $post->get("track_{$i}_composer", ''),
             ];
+            if ($trackName)
+                $entry['name'] = $trackName;
+            if ($composer)
+                $entry['composer'] = $composer;
+
+            $tracks[] = $entry;
             $filemap[$upload->getPathname()] = $newFilename;
 
             $newIndex++;
@@ -73,6 +86,13 @@ final class Music extends AbstractController
         $object->properties = [
             'tracks' => $tracks,
         ];
+        if ($previewImage !== null)
+        {
+            $object->images = [
+                ['path' => 'images/preview.png'],
+            ];
+            $filemap[$previewImage->getPathname()] = 'images/preview.png';
+        }
 
         $serializer = new ObjectSerializer($object);
         $json = $serializer->serializeToJson();
@@ -109,5 +129,23 @@ final class Music extends AbstractController
     private function getTempDir(): string
     {
         return '/tmp';
+    }
+
+    private function getPreviewImage(Request $request): UploadedFile|null
+    {
+        /** @var UploadedFile|null $previewImage */
+        $previewImage = $request->files->get('preview_image');
+        if ($previewImage === null)
+            return null;
+
+        /** @var GdImage|false $image */
+        $image = @imagecreatefrompng($previewImage->getPathname());
+        if ($image === false)
+            return null;
+
+        if (imagesx($image) !== 112 || imagesy($image) !== 112)
+            return null;
+
+        return $previewImage;
     }
 }
