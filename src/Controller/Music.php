@@ -41,7 +41,7 @@ final class Music extends AbstractController
         $post = $request->request;
         $userIdentifier = $post->get('user_identifier');
         $objectIdentifier = $post->get('object_identifier');
-        $fullIdentifier = "{$userIdentifier}.music.{$objectIdentifier}";
+        $fullIdentifier = strtolower("{$userIdentifier}.music.{$objectIdentifier}");
         $creators = explode(',', $post->get('creators_names'));
         $creators = array_map('trim', $creators);
         $styleDescription = $post->get('style_description');
