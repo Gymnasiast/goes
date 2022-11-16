@@ -6,11 +6,14 @@
     "require": {
         "php": ">=8.1",
         "ext-ctype": "*",
+        "ext-gd": "*",
         "ext-iconv": "*",
+        "ext-zip": "*",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.13",
+        "gymnasiast/rct-php": "^1.0",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.11",
         "sensio/framework-extra-bundle": "^6.2",
@@ -43,9 +46,7 @@
         "symfony/yaml": "6.1.*",
         "twbs/bootstrap": "^5.0",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0",
-      "ext-zip": "*",
-      "ext-gd": "*"
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "allow-plugins": {
@@ -59,6 +60,12 @@
         },
         "sort-packages": true
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Gymnasiast/RCT-PHP"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "src/"

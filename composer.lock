@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f16ab964dc725bb324aeda1040ab5af6",
+    "content-hash": "5a2f2d955ae5093eb98952d4d7ee9d82",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1525,6 +1525,39 @@
                 }
             ],
             "time": "2022-10-17T19:48:16+00:00"
+        },
+        {
+            "name": "gymnasiast/rct-php",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gymnasiast/RCT-PHP.git",
+                "reference": "57bc1fa7e0e2fc7e1cdc15880bbdd500a74cb4a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/57bc1fa7e0e2fc7e1cdc15880bbdd500a74cb4a6",
+                "reference": "57bc1fa7e0e2fc7e1cdc15880bbdd500a74cb4a6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "RCTPHP\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.0",
+                "issues": "https://github.com/Gymnasiast/RCT-PHP/issues"
+            },
+            "time": "2022-11-16T16:44:41+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -9778,7 +9811,9 @@
     "platform": {
         "php": ">=8.1",
         "ext-ctype": "*",
-        "ext-iconv": "*"
+        "ext-gd": "*",
+        "ext-iconv": "*",
+        "ext-zip": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.2.0"

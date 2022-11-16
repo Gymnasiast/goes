@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\OpenRCT2\MusicObject;
-use App\OpenRCT2\ObjectSerializer;
+use RuntimeException;
+use RCTPHP\Object\OpenRCT2\MusicObject;
+use RCTPHP\Object\OpenRCT2\ObjectSerializer;
 use GdImage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
