@@ -5,26 +5,26 @@
 
     <h1>Music Creator</h1>
 
-    <form action="#" method="post" enctype="multipart/form-data">
-        <h2>Metadata</h2>
+    <form id="music-form" action="#" method="post" enctype="multipart/form-data">
+        <h2>Metadata (required)</h2>
         <div class="mb-3">
             <label for="user_identifier" class="form-label">Your identifier</label>
-            <input type="text" pattern="[a-z0-9_]+" class="form-control" id="user_identifier" name="user_identifier" aria-describedby="user_identifier_help">
+            <input type="text" pattern="[a-z0-9_]+" class="form-control" id="user_identifier" name="user_identifier" aria-describedby="user_identifier_help" required>
             <div id="user_identifier_help" class="form-text">Usually similar to your user handle. This should be the same for all of your objects. a-z, 0-9 and underscores only. E.g.: <i>auraspecs</i></div>
         </div>
         <div class="mb-3">
             <label for="object_identifier" class="form-label">Object identifier</label>
-            <input type="text" pattern="[a-z0-9_]+" class="form-control" id="object_identifier" name="object_identifier" aria-describedby="object_identifier_help">
+            <input type="text" pattern="[a-z0-9_]+" class="form-control" id="object_identifier" name="object_identifier" aria-describedby="object_identifier_help" required>
             <div id="object_identifier_help" class="form-text">A short, unique name for your object. a-z, 0-9 and underscores only. E.g.: <i>acid_style</i></div>
         </div>
         <div class="mb-3">
             <label for="creators_names" class="form-label">Creator’s name(s)</label>
-            <input type="text"  class="form-control" id="creators_names" name="creators_names" aria-describedby="creators_names_help">
+            <input type="text"  class="form-control" id="creators_names" name="creators_names" aria-describedby="creators_names_help" required>
             <div id="creators_names_help" class="form-text">The names of the people who created this object, separated by commas. E.g.: <i>Karst van Galen Last</i></div>
         </div>
         <div class="mb-3">
             <label for="style_description" class="form-label">Style description</label>
-            <input type="text" class="form-control" id="style_description" name="style_description" aria-describedby="style_description_help">
+            <input type="text" class="form-control" id="style_description" name="style_description" aria-describedby="style_description_help" required>
             <div id="style_description_help" class="form-text">The name of the music style, as it appears in the Object Selection and music style dropdown. E.g.: <i>Acid Style</i></div>
         </div>
 

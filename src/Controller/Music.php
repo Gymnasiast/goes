@@ -10,13 +10,18 @@ use GdImage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use ZipArchive;
+use function array_map;
+use function explode;
 use function file_get_contents;
 use function imagecreatefrompng;
+use function strtolower;
 use function tempnam;
+use function trim;
 use function unlink;
 
 final class Music extends AbstractController
@@ -38,7 +43,19 @@ final class Music extends AbstractController
     #[Route('/music', methods: ['POST'])]
     public function process(Request $request): Response
     {
+        try {
+            return $this->buildObject($request);
+        } catch (\Exception $ex) {
+            return new JsonResponse([
+                'error' => $ex->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
 
+        //$response = new BinaryFileResponse($zipFilename);
+    }
+
+    private function buildObject(Request $request): Response
+    {
         $post = $request->request;
         $userIdentifier = $post->get('user_identifier');
         $objectIdentifier = $post->get('object_identifier');
@@ -58,7 +75,7 @@ final class Music extends AbstractController
             if ($upload === null)
                 continue;
 
-            $extension = $upload->getClientOriginalExtension();
+            $extension = self::FILE_FORMAT[$upload->getMimeType()] ?? $upload->getClientOriginalExtension();
             $newFilename = "music/{$newIndex}.{$extension}";
             $trackName = trim($post->get("track_{$i}_name", ''));
             $composer = trim($post->get("track_{$i}_composer", ''));
@@ -123,8 +140,6 @@ final class Music extends AbstractController
         return new Response($zipContents, Response::HTTP_OK, [
             'Content-Disposition' => $disposition
         ]);
-
-        //$response = new BinaryFileResponse($zipFilename);
     }
 
     private function getTempDir(): string
@@ -142,10 +157,10 @@ final class Music extends AbstractController
         /** @var GdImage|false $image */
         $image = @imagecreatefrompng($previewImage->getPathname());
         if ($image === false)
-            return null;
+            throw new RuntimeException('Not a valid PNG!');
 
         if (imagesx($image) !== 112 || imagesy($image) !== 112)
-            return null;
+            throw new RuntimeException('Image size is incorrect, please upload a PNG file with 112 × 112 pixels!');
 
         return $previewImage;
     }
