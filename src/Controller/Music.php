@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use ZipArchive;
+use function array_key_exists;
 use function array_map;
 use function explode;
 use function file_get_contents;
@@ -75,7 +76,13 @@ final class Music extends AbstractController
             if ($upload === null)
                 continue;
 
-            $extension = self::FILE_FORMAT[$upload->getMimeType()] ?? $upload->getClientOriginalExtension();
+            $mimeType = $upload->getMimeType();
+            if (!array_key_exists($mimeType, self::FILE_FORMAT))
+            {
+                throw new RuntimeException("Music file #{$i} has an incorrect file type: {$mimeType}. Please select an OGG file.");
+            }
+
+            $extension = self::FILE_FORMAT[$mimeType] ?? $upload->getClientOriginalExtension();
             $newFilename = "music/{$newIndex}.{$extension}";
             $trackName = trim($post->get("track_{$i}_name", ''));
             $composer = trim($post->get("track_{$i}_composer", ''));
