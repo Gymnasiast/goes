@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use ZipArchive;
 use function array_key_exists;
+use function array_keys;
 use function array_map;
 use function explode;
 use function file_get_contents;
@@ -33,11 +34,38 @@ final class Music extends AbstractController
         'audio/ogg' => 'ogg',
     ];
 
+    private const EXTRA_LANGUAGES = [
+        'ar-EG' => 'Arabic (Egypt)',
+        'ca-ES' => 'Catalan',
+        'da-DK' => 'Danish',
+        'de-DE' => 'German (Germany)',
+        'en-US' => 'English (US)',
+        'eo-ZZ' => 'Esperanto',
+        'es-ES' => 'Spanish (Spain)',
+        'fi-FI' => 'Finnish',
+        'fr-FR' => 'French',
+        'hu-HU' => 'Hungarian',
+        'it-IT' => 'Italian',
+        'ja-JP' => 'Japanese',
+        'ko-KR' => 'Korean',
+        'nb-NO' => 'Norwegian (Bokmål)',
+        'nl-NL' => 'Dutch',
+        'pt-BR' => 'Portuguese (Brazil)',
+        'ru-RU' => 'Russian',
+        'sv-SE' => 'Swedish',
+        'tr-TR' => 'Turkish',
+        'zh-CN' => 'Simplified Chinese',
+        'zh-TW' => 'Traditional Chinese',
+    ];
+
     #[Route('/music', methods: ['GET', 'HEAD'])]
     public function showForm(): Response
     {
+        $extraLanguages = self::EXTRA_LANGUAGES;
+        asort($extraLanguages);
         return $this->render('music.html.twig', [
             'maxTracks' => self::MAX_MUSIC_TRACKS,
+            'extraLanguages' => $extraLanguages,
         ]);
     }
 
@@ -63,7 +91,8 @@ final class Music extends AbstractController
         $fullIdentifier = strtolower("{$userIdentifier}.music.{$objectIdentifier}");
         $creators = explode(',', $post->get('creators_names'));
         $creators = array_map('trim', $creators);
-        $styleDescription = $post->get('style_description');
+        $styleDescriptionEnglish = $post->get('style_description');
+        $version = $post->get('version') ?: '1.0';
         $previewImage = $this->getPreviewImage($request);
 
         $tracks = [];
@@ -100,13 +129,24 @@ final class Music extends AbstractController
             $newIndex++;
         }
 
+        $nameTable = [
+            'en-GB' => $styleDescriptionEnglish,
+        ];
+        foreach (array_keys(self::EXTRA_LANGUAGES) as $code)
+        {
+            $styleDescriptionTranslated = $post->get('style_description_' . $code);
+            if (!empty($styleDescriptionTranslated) && $styleDescriptionTranslated !== $styleDescriptionEnglish)
+            {
+                $nameTable[$code] = $styleDescriptionTranslated;
+            }
+        }
+
         $object = new MusicObject();
         $object->id = $fullIdentifier;
         $object->authors = $creators;
+        $object->version = $version;
         $object->strings = [
-            'name' => [
-                'en-GB' => $styleDescription,
-            ]
+            'name' => $nameTable,
         ];
         $object->properties = [
             'tracks' => $tracks,
