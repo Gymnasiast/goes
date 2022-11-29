@@ -7,6 +7,7 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+        {% block extraStyles %}{% endblock %}
     </head>
     <body>
     <header>
@@ -18,12 +19,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
+                        {% for url, name in menuItems %}
                         <li class="nav-item ">
-                            <a class="nav-link {% if (app.request.getPathInfo) == '/' %}active" aria-current="page{% endif %}" href="/">Home</a>
+                            <a class="nav-link {% if (app.request.getPathInfo) == url %}active" aria-current="page{% endif %}" href="{{ url }}">{{ name }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if (app.request.getPathInfo) == '/music' %}active" aria-current="page{% endif %}" href="/music">Music</a>
-                        </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -40,6 +40,7 @@
         </section>
     </main>
     <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/music.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/base.js') }}"></script>
+    {% block extraScripts %}{% endblock %}
     </body>
 </html>

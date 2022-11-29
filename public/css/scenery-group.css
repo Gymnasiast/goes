@@ -1,0 +1,62 @@
+#entries-list
+{
+    position: relative;
+}
+
+#entries-list > div
+{
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 3px;
+    display: flex;
+    cursor: move;
+    content: '&#10021;'
+}
+
+#entries-list > div.dragging
+{
+    background-color: whitesmoke;
+    opacity: 0.5;
+}
+
+#entries-list > div.dragover
+{
+    background-color: yellow;
+}
+
+#entries-list div + div
+{
+    margin-top: 5px;
+}
+
+#entries-list > div > div
+{
+    margin-left: 20px;
+    flex-grow: 1;
+    user-select: none;
+}
+
+#entries-list span.remove-object
+{
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 12px;
+    flex-grow: 0;
+    text-align: center;
+    line-height: 24px;
+    position: absolute;
+    right: 4px;
+}
+
+.entry-drag-outer-box
+{
+    z-index: 10;
+}
+
+.entry-drag-inner-box
+{
+    z-index: 11;
+}

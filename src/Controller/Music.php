@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Base\Metadata;
+use App\Base\Zipper;
 use RuntimeException;
 use RCTPHP\Object\OpenRCT2\MusicObject;
 use RCTPHP\Object\OpenRCT2\ObjectSerializer;
@@ -34,34 +36,10 @@ final class Music extends AbstractController
         'audio/ogg' => 'ogg',
     ];
 
-    private const EXTRA_LANGUAGES = [
-        'ar-EG' => 'Arabic (Egypt)',
-        'ca-ES' => 'Catalan',
-        'da-DK' => 'Danish',
-        'de-DE' => 'German (Germany)',
-        'en-US' => 'English (US)',
-        'eo-ZZ' => 'Esperanto',
-        'es-ES' => 'Spanish (Spain)',
-        'fi-FI' => 'Finnish',
-        'fr-FR' => 'French',
-        'hu-HU' => 'Hungarian',
-        'it-IT' => 'Italian',
-        'ja-JP' => 'Japanese',
-        'ko-KR' => 'Korean',
-        'nb-NO' => 'Norwegian (Bokmål)',
-        'nl-NL' => 'Dutch',
-        'pt-BR' => 'Portuguese (Brazil)',
-        'ru-RU' => 'Russian',
-        'sv-SE' => 'Swedish',
-        'tr-TR' => 'Turkish',
-        'zh-CN' => 'Simplified Chinese',
-        'zh-TW' => 'Traditional Chinese',
-    ];
-
     #[Route('/music', methods: ['GET', 'HEAD'])]
     public function showForm(): Response
     {
-        $extraLanguages = self::EXTRA_LANGUAGES;
+        $extraLanguages = Metadata::EXTRA_LANGUAGES;
         asort($extraLanguages);
         return $this->render('music.html.twig', [
             'maxTracks' => self::MAX_MUSIC_TRACKS,
@@ -79,8 +57,6 @@ final class Music extends AbstractController
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
         }
-
-        //$response = new BinaryFileResponse($zipFilename);
     }
 
     private function buildObject(Request $request): Response
@@ -132,7 +108,7 @@ final class Music extends AbstractController
         $nameTable = [
             'en-GB' => $styleDescriptionEnglish,
         ];
-        foreach (array_keys(self::EXTRA_LANGUAGES) as $code)
+        foreach (array_keys(Metadata::EXTRA_LANGUAGES) as $code)
         {
             $styleDescriptionTranslated = $post->get('style_description_' . $code);
             if (!empty($styleDescriptionTranslated) && $styleDescriptionTranslated !== $styleDescriptionEnglish)
@@ -159,34 +135,8 @@ final class Music extends AbstractController
             $filemap[$previewImage->getPathname()] = 'images/preview.png';
         }
 
-        $serializer = new ObjectSerializer($object);
-        $json = $serializer->serializeToJson();
-
-        $zip = new ZipArchive();
-        $zipFilename = tempnam('/tmp', 'zip');
-        if ($zip->open($zipFilename, ZipArchive::CREATE) !== true) {
-            throw new \Exception("Cannot create zipfile!");
-        }
-
-        $zip->addFromString('object.json', $json);
-        foreach ($filemap as $tempname => $newName)
-        {
-            $zip->addFile($tempname, $newName);
-        }
-
-        $zip->close();
-
-        $zipContents = file_get_contents($zipFilename);
-        unlink($zipFilename);
-
-        $disposition = HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
-            "$fullIdentifier.parkobj",
-        );
-
-        return new Response($zipContents, Response::HTTP_OK, [
-            'Content-Disposition' => $disposition
-        ]);
+        $zipper = new Zipper($object, $filemap);
+        return $zipper->getResponse();
     }
 
     private function getTempDir(): string
