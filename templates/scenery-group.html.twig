@@ -4,7 +4,7 @@
 {% block title %}GOES - Scenery Group Creator{% endblock %}
 {% block content %}
 
-    <h1>Scenery group</h1>
+    <h1>Scenery groups</h1>
 
     <form id="scenery-group-form" action="#" method="post" enctype="multipart/form-data">
         <h2>Metadata</h2>
@@ -63,9 +63,15 @@
 
         <div id="advanced-options" class="d-none">
             <div class="mb-3">
-                <label for="object_identifier" class="form-label">Version</label>
+                <label for="version" class="form-label">Version</label>
                 <input type="text" pattern="[0-9]+(\.[0-9]+){1,2}" class="form-control" id="version" name="version" aria-describedby="version_help" value="1.0">
                 <div id="version_help" class="form-text">A version number. 0-9 and dots only. May be left blank to default to 1.0. E.g.: <i>1.0</i></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="priority" class="form-label">Priority</label>
+                <input type="text" pattern="[0-9]+" class="form-control" id="priority" name="priority" aria-describedby="priority_help" value="">
+                <div id="priority_help" class="form-text">Used to control the place within the Scenery window. Leave blank unless you know what this does.</div>
             </div>
 
             <h2>Scenery group name (in other languages)</h2>

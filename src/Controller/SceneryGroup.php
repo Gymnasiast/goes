@@ -75,6 +75,7 @@ final class SceneryGroup extends AbstractController
         $creators = array_map('trim', $creators);
         $nameEnglish = $post->get('name_en-GB');
         $version = $post->get('version') ?: '1.0';
+        $priority = $post->get('priority') ?: 40;
 
         $identifiers = $post->all('identifiers');
         if (count($identifiers) === 0)
@@ -91,11 +92,11 @@ final class SceneryGroup extends AbstractController
         $previewImages = $this->addPreviewImages($request);
         $imageTable = [];
         $filemap = [];
-        for ($i = 0, $iMax = count($previewImages); $i < $iMax; $i++)
+        foreach ($previewImages as $i => $tempFilename)
         {
             $filenameInZip = "images/$i.png";
             $imageTable[] = ['path' => $filenameInZip];
-            $filemap[$previewImages[$i]] = $filenameInZip;
+            $filemap[$tempFilename] = $filenameInZip;
         }
 
         $nameTable = [
@@ -119,7 +120,7 @@ final class SceneryGroup extends AbstractController
         ];
         $object->properties = [
             'entries' => $entriesList,
-            'priority' => 100,
+            'priority' => $priority,
         ];
         $object->images = $imageTable;
 
