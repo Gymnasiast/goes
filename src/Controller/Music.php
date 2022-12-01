@@ -42,6 +42,7 @@ final class Music extends AbstractController
         $extraLanguages = Metadata::EXTRA_LANGUAGES;
         asort($extraLanguages);
         return $this->render('music.html.twig', [
+            'title' => 'Music Creator',
             'maxTracks' => self::MAX_MUSIC_TRACKS,
             'extraLanguages' => $extraLanguages,
         ]);

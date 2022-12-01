@@ -13,6 +13,7 @@ final class Home extends AbstractController
     public function get(): Response
     {
         return $this->render('home.html.twig', [
+            'title' => 'Gymnasiast’s Object Editor Site',
         ]);
     }
 }
