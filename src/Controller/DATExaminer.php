@@ -3,17 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Base\Metadata;
-use RCTPHP\Object\DatHeader;
+use RCTPHP\RCT2\Object\DATHeader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use function asort;
-use function dechex;
-use function str_pad;
-use function strtoupper;
-use const STR_PAD_LEFT;
 
 final class DATExaminer extends AbstractController
 {
@@ -41,21 +35,19 @@ final class DATExaminer extends AbstractController
             ]);
         }
 
-        $header = new DatHeader($file->getPathname());
-        $flags = str_pad(strtoupper(dechex($header->flags)), 8, '0', STR_PAD_LEFT);
-        $checksum = str_pad(strtoupper(dechex($header->checksum)), 8, '0', STR_PAD_LEFT);
-        $originalId = "{$flags}|{$header->name}|{$checksum}";
-        $sceneryGroupEntry = "\$DAT:{$flags}|{$header->name}";
+        $fp = fopen($file->getPathname(), 'rb');
+        $header = new DATHeader($fp);
+        fclose($fp);
 
         return $this->render('dat-examiner.html.twig', [
             'title' => 'Scenery Group Creator',
             'error' => null,
             'result' => true,
             'name' => $header->name,
-            'flags' => $flags,
-            'checksum' => $checksum,
-            'originalId' => $originalId,
-            'sceneryGroupEntry' => $sceneryGroupEntry,
+            'flags' => $header->getFlagsFormatted(),
+            'checksum' => $header->getChecksumFormatted(),
+            'originalId' => $header->getAsOriginalId(),
+            'sceneryGroupEntry' => $header->getAsSceneryGroupListEntry(),
         ]);
     }
 }
