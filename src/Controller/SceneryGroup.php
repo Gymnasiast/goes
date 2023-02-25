@@ -5,10 +5,11 @@ namespace App\Controller;
 
 use App\Base\Metadata;
 use App\Base\Zipper;
-use App\SceneryGroupObject;
 use Exception;
 use GdImage;
 use RCTPHP\Object\DatHeader;
+use RCTPHP\Object\OpenRCT2\SceneryGroupObject;
+use RCTPHP\Object\OpenRCT2\SceneryGroupProperties;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -27,15 +28,10 @@ use function imagecreatefrompng;
 use function imagepng;
 use function imagesx;
 use function imagesy;
-use function is_array;
 use function json_decode;
-use function ob_end_clean;
-use function ob_get_clean;
-use function ob_start;
 use function str_pad;
 use function strtolower;
 use function tempnam;
-use function var_dump;
 use const STR_PAD_LEFT;
 
 final class SceneryGroup extends AbstractController
@@ -119,10 +115,10 @@ final class SceneryGroup extends AbstractController
         $object->strings = [
             'name' => $nameTable,
         ];
-        $object->properties = [
-            'entries' => $entriesList,
-            'priority' => $priority,
-        ];
+        $object->properties = new SceneryGroupProperties(
+            entries: $entriesList,
+            priority: $priority,
+        );
         $object->images = $imageTable;
 
         $zipper = new Zipper($object, $filemap);
