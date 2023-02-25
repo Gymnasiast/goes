@@ -5,6 +5,7 @@ twig:
             /: Home
             /music: Music
             /scenery-group: Scenery Groups
+            /dat-examiner: DAT Examiner
 when@test:
     twig:
         strict_variables: true

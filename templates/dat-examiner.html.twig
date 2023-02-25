@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GOES - {{ title }}{% endblock %}
+{% block content %}
+
+<h1>DAT examiner</h1>
+
+    <p>This allow one to upload any valid RCT2 .DAT file and inspect its header.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="dat" accept="*.dat">
+        <input type="submit" class="btn btn-primary" value="Examine">
+    </form>
+
+    {% if (error) %}
+        <div class="alert alert-warning">{{ error|raw }}</div>
+    {% endif %}
+    {% if (result) %}
+        <table>
+            <tr><td>Name: </td><td>{{ name }}</td></tr>
+            <tr><td>Flags: </td><td>{{ flags }}</td></tr>
+            <tr><td>Checksum: </td><td>{{ checksum }}</td></tr>
+            <tr><th colspan="2">Formatted</th></tr>
+            <tr><td>originalId</td><td>{{ originalId }}</td></tr>
+            <tr><td>Scenery group entry</td><td>{{ sceneryGroupEntry }}</td></tr>
+        </table>
+    {% endif %}
+
+{% endblock %}
