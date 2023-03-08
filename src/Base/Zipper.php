@@ -1,8 +1,8 @@
 <?php
 namespace App\Base;
 
-use RCTPHP\Object\OpenRCT2\BaseObject;
-use RCTPHP\Object\OpenRCT2\ObjectSerializer;
+use RCTPHP\OpenRCT2\Object\BaseObject;
+use RCTPHP\OpenRCT2\Object\ObjectSerializer;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
 use ZipArchive;

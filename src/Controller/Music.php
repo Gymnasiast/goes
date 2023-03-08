@@ -5,28 +5,22 @@ namespace App\Controller;
 
 use App\Base\Metadata;
 use App\Base\Zipper;
+use RCTPHP\OpenRCT2\Object\MusicObject;
 use RuntimeException;
-use RCTPHP\Object\OpenRCT2\MusicObject;
-use RCTPHP\Object\OpenRCT2\ObjectSerializer;
 use GdImage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use ZipArchive;
 use function array_key_exists;
 use function array_keys;
 use function array_map;
 use function explode;
-use function file_get_contents;
 use function imagecreatefrompng;
 use function strtolower;
-use function tempnam;
 use function trim;
-use function unlink;
 
 final class Music extends AbstractController
 {

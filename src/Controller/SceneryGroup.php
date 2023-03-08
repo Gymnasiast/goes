@@ -7,9 +7,9 @@ use App\Base\Metadata;
 use App\Base\Zipper;
 use Exception;
 use GdImage;
-use RCTPHP\Object\DatHeader;
-use RCTPHP\Object\OpenRCT2\SceneryGroupObject;
-use RCTPHP\Object\OpenRCT2\SceneryGroupProperties;
+use RCTPHP\OpenRCT2\Object\SceneryGroupObject;
+use RCTPHP\OpenRCT2\Object\SceneryGroupProperties;
+use RCTPHP\RCT2\Object\DATHeader;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -138,7 +138,8 @@ final class SceneryGroup extends AbstractController
         $extension = strtolower($object->getClientOriginalExtension());
         if ($extension === 'dat')
         {
-            $header = new DatHeader($object->getPathname());
+            $stream = fopen($object->getPathname(), 'rb');
+            $header = new DATHeader($stream);
             $flags = str_pad(strtoupper(dechex($header->flags)), 8, '0', STR_PAD_LEFT);
             $identifier = "\$DAT:{$flags}|{$header->name}";
             return new JsonResponse(['type' => 'dat', 'identifier' => $identifier]);
