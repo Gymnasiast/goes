@@ -1,0 +1,27 @@
+#palette-form
+{
+    display: none;
+}
+
+#palette-load-custom-input
+{
+    display: none;
+}
+
+.palette-color-outer
+{
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.palette-color
+{
+    appearance: none;
+    width: 42px;
+    height: 42px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+}

@@ -1528,36 +1528,38 @@
         },
         {
             "name": "gymnasiast/rct-php",
-            "version": "v1.2",
+            "version": "v1.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gymnasiast/RCT-PHP.git",
-                "reference": "c37b861c7959e03b19f52b25ccf7709a5264a79b"
+                "reference": "d752f240e0a6a4834efeafccbb106679b26b6633"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/c37b861c7959e03b19f52b25ccf7709a5264a79b",
-                "reference": "c37b861c7959e03b19f52b25ccf7709a5264a79b",
+                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/d752f240e0a6a4834efeafccbb106679b26b6633",
+                "reference": "d752f240e0a6a4834efeafccbb106679b26b6633",
                 "shasum": ""
             },
             "require": {
+                "ext-gd": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*"
             },
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "RCTPHP\\": "src/"
+                    "RCTPHP\\": "src/",
+                    "TXweb\\BinaryHandler\\": "src-bh/"
                 }
             },
             "license": [
                 "MIT"
             ],
             "support": {
-                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.2",
+                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.3.5",
                 "issues": "https://github.com/Gymnasiast/RCT-PHP/issues"
             },
-            "time": "2023-02-25T21:57:01+00:00"
+            "time": "2023-03-16T23:30:25+00:00"
         },
         {
             "name": "laminas/laminas-code",
