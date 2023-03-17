@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use TXweb\BinaryHandler\BinaryReader;
 
 final class DATExaminer extends AbstractController
 {
@@ -35,9 +36,8 @@ final class DATExaminer extends AbstractController
             ]);
         }
 
-        $fp = fopen($file->getPathname(), 'rb');
-        $header = new DATHeader($fp);
-        fclose($fp);
+        $reader = BinaryReader::fromFile($file->getPathname());
+        $header = new DATHeader($reader);
 
         return $this->render('dat-examiner.html.twig', [
             'title' => 'Scenery Group Creator',
