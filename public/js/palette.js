@@ -91,6 +91,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     document.getElementById('palette-form').style.display = 'block';
                 });
             }
+            else
+            {
+                response.text().then((text) => {
+                    const parsed = JSON.parse(text);
+                    alert(parsed.error);
+                });
+            }
         });
     });
 

@@ -11,6 +11,7 @@ use RCTPHP\OpenRCT2\Object\ObjectSerializer;
 use RCTPHP\OpenRCT2\Object\WaterPaletteGroup;
 use RCTPHP\OpenRCT2\Object\WaterProperties;
 use RCTPHP\OpenRCT2\Object\WaterPropertiesPalettes;
+use RCTPHP\RCT2\Object\DATDetector;
 use RCTPHP\RCT2\Object\WaterObject;
 use RCTPHP\Util\RGB;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,13 +20,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Throwable;
+use TXweb\BinaryHandler\BinaryReader;
 use ZipArchive;
+use function array_key_exists;
 use function array_keys;
 use function array_map;
 use function asort;
 use function explode;
 use function file_get_contents;
 use function hexdec;
+use function is_array;
+use function json_decode;
+use function json_encode;
 use function stream_get_contents;
 use function strtolower;
 use function substr;
@@ -64,31 +71,66 @@ final class Palette extends AbstractController
         switch ($extension)
         {
             case 'bmp':
-                $palFile = new RCT2PaletteMakerFile($uploadedFile->getPathname());
-                $converted = $palFile->toOpenRCT2Object();
-                $serializer = new ObjectSerializer($converted);
-                return new JsonResponse($serializer->serializeToJson(), json: true);
+                try
+                {
+                    $palFile = new RCT2PaletteMakerFile($uploadedFile->getPathname());
+                    $converted = $palFile->toOpenRCT2Object();
+                    $serializer = new ObjectSerializer($converted);
+                    return new JsonResponse($serializer->serializeToJson(), json: true);
+                }
+                catch (Throwable)
+                {
+                    return new JsonResponse(['error' => 'Could not open BMP file!'], Response::HTTP_BAD_REQUEST);
+                }
             case 'parkobj':
                 $zip = new ZipArchive();
                 $open = $zip->open($uploadedFile->getPathname());
                 if ($open !== true)
                 {
-                    return new JsonResponse(['error' => 'Could not open ZIP!'], Response::HTTP_BAD_REQUEST);
+                    return new JsonResponse(['error' => 'Could not extract files from PARKOBJ! The file might be damaged.'], Response::HTTP_BAD_REQUEST);
                 }
 
-                $data = stream_get_contents($zip->getStream('object.json'));
-                return new JsonResponse($data, json: true);
+                $stream = $zip->getStream('object.json');
+                if ($stream === false)
+                {
+                    return new JsonResponse(['error' => 'Could not load object metadata. The object may be damaged!'], Response::HTTP_BAD_REQUEST);
+                }
+
+                $data = stream_get_contents($stream);
+                return $this->checkJson($data);
             case 'dat':
-                $object = WaterObject::fromFile($uploadedFile->getPathname());
+                $reader = BinaryReader::fromFile($uploadedFile->getPathname());
+                $detector = new DATDetector($reader);
+                $object = $detector->getObject();
+                if (!$object instanceof WaterObject)
+                {
+                    return new JsonResponse(['error' => 'The provided object is not a palette!'], Response::HTTP_BAD_REQUEST);
+                }
                 $converted = $object->toOpenRCT2Object();
                 $serializer = new ObjectSerializer($converted);
                 return new JsonResponse($serializer->serializeToJson(), json: true);
             case 'json':
                 $json = file_get_contents($uploadedFile->getPathname());
-                return new JsonResponse($json, json: true);
+                return $this->checkJson($json);
         }
 
         return new JsonResponse(['error' => 'Extension not supported!'], Response::HTTP_BAD_REQUEST);
+    }
+
+    private function checkJson(string $json): JsonResponse
+    {
+        $decoded = json_decode($json, true);
+        if (!is_array($decoded) || !array_key_exists('objectType', $decoded))
+        {
+            return new JsonResponse(['error' => 'Could not load object metadata. The object may be damaged!'], Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($decoded['objectType'] !== 'water')
+        {
+            return new JsonResponse(['error' => 'The provided object is not a palette!'], Response::HTTP_BAD_REQUEST);
+        }
+
+        return new JsonResponse($json, json: true);
     }
 
     #[Route('/palette', methods: ['POST'])]
