@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     applyPalette(parsed);
 
-                    document.getElementById('palette-start').style.display = 'none';
+                    //document.getElementById('palette-start').style.display = 'none';
                     document.getElementById('palette-form').style.display = 'block';
                 });
             }
