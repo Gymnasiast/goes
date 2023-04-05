@@ -4,8 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a2f2d955ae5093eb98952d4d7ee9d82",
+    "content-hash": "91ea672a2495198fe4525fd68670e2c0",
     "packages": [
+        {
+            "name": "cyndaron/binary-handler",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Cyndaron/binary-handler.git",
+                "reference": "24d18cd8bc3d4257f3e02d85dace93b4ba43729d"
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "phpstan/phpstan": "*"
+            },
+            "default-branch": true,
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Cyndaron\\BinaryHandler\\": "src/"
+                }
+            },
+            "scripts": {
+                "phpstan": [
+                    "vendor/bin/phpstan analyse src --level 9"
+                ],
+                "cs-check": [
+                    "vendor/bin/php-cs-fixer fix src/ --allow-risky=yes --dry-run --diff"
+                ],
+                "cs-fix": [
+                    "vendor/bin/php-cs-fixer fix src/ --allow-risky=yes"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Read and write binary files easily",
+            "time": "2023-03-21T22:14:27+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "1.13.3",
@@ -1528,38 +1567,54 @@
         },
         {
             "name": "gymnasiast/rct-php",
-            "version": "v1.3.8",
+            "version": "v1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gymnasiast/RCT-PHP.git",
-                "reference": "bd58c32d67027a9764abb82888cf5645513c6df0"
+                "reference": "311a04bb0bd7248145ad4c47080619e067bd819c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/bd58c32d67027a9764abb82888cf5645513c6df0",
-                "reference": "bd58c32d67027a9764abb82888cf5645513c6df0",
+                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/311a04bb0bd7248145ad4c47080619e067bd819c",
+                "reference": "311a04bb0bd7248145ad4c47080619e067bd819c",
                 "shasum": ""
             },
             "require": {
+                "cyndaron/binary-handler": "dev-master",
                 "ext-gd": "*",
                 "ext-json": "*",
-                "ext-mbstring": "*"
+                "ext-mbstring": "*",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "phpstan/phpstan": "*"
             },
             "type": "project",
             "autoload": {
                 "psr-4": {
-                    "RCTPHP\\": "src/",
-                    "TXweb\\BinaryHandler\\": "src-bh/"
+                    "RCTPHP\\": "src/"
                 }
+            },
+            "scripts": {
+                "phpstan": [
+                    "vendor/bin/phpstan analyse src --level 9"
+                ],
+                "cs-check": [
+                    "vendor/bin/php-cs-fixer fix src/ --allow-risky=yes --dry-run --diff"
+                ],
+                "cs-fix": [
+                    "vendor/bin/php-cs-fixer fix src/ --allow-risky=yes"
+                ]
             },
             "license": [
                 "MIT"
             ],
             "support": {
-                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.3.8",
+                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.4",
                 "issues": "https://github.com/Gymnasiast/RCT-PHP/issues"
             },
-            "time": "2023-03-18T18:28:40+00:00"
+            "time": "2023-04-05T20:19:16+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -9807,7 +9862,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "cyndaron/binary-handler": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

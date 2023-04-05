@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Base\Metadata;
 use App\Base\Zipper;
+use GdImage;
 use RCTPHP\ExternalTools\RCT2PaletteMakerFile;
 use RCTPHP\OpenRCT2\Object\MusicObject;
 use RCTPHP\OpenRCT2\Object\ObjectSerializer;
@@ -15,13 +16,15 @@ use RCTPHP\RCT2\Object\DATDetector;
 use RCTPHP\RCT2\Object\WaterObject;
 use RCTPHP\Util\RGB;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Throwable;
-use TXweb\BinaryHandler\BinaryReader;
+use Cyndaron\BinaryHandler\BinaryReader;
 use ZipArchive;
 use function array_key_exists;
 use function array_keys;
@@ -30,15 +33,25 @@ use function asort;
 use function explode;
 use function file_get_contents;
 use function hexdec;
+use function imagecreatefrombmp;
+use function imagecreatefrompng;
+use function imagepng;
 use function is_array;
 use function json_decode;
 use function json_encode;
 use function stream_get_contents;
 use function strtolower;
 use function substr;
+use function tempnam;
+use function unlink;
+use function var_dump;
 
 final class Palette extends AbstractController
 {
+    private const WAVE_START = 230;
+    private const SPARKLE_START = 235;
+    private const NUM_ANIMATED_WATER_FRAMES = 15;
+
     #[Route('/palette', methods: ['GET', 'HEAD'])]
     public function showForm(): Response
     {
@@ -137,7 +150,9 @@ final class Palette extends AbstractController
     public function process(Request $request): Response
     {
         try {
-            return $this->buildObject($request);
+            $object = $this->buildObject($request);
+            $zipper = new Zipper($object);
+            return $zipper->getResponse();
         } catch (\Exception $ex) {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
@@ -145,7 +160,128 @@ final class Palette extends AbstractController
         }
     }
 
-    private function buildObject(Request $request): Response
+    private function createImageResponse(string $filename): Response
+    {
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            "output.png",
+        );
+        $response = new Response(file_get_contents($filename), Response::HTTP_OK, [
+            'Content-Disposition' => $disposition
+        ]);
+
+        @unlink($filename);
+        return $response;
+    }
+
+    #[Route('/palette/preview', methods: ['POST'])]
+    public function preview(Request $request): Response
+    {
+        try {
+            $object = $this->buildObject($request);
+            $previewImageFilename = __DIR__ . '/../../assets/palette-preview.png';
+            $previewImage = imagecreatefrompng($previewImageFilename);
+            $image = $this->applyAnimatedPalette($previewImage, $object);
+            return $this->createImageResponse($image);
+        } catch (\Exception $ex) {
+            return new JsonResponse([
+                'error' => $ex->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    #[Route('/palette/preview-own', methods: ['POST'])]
+    public function previewOwn(Request $request): Response
+    {
+        /** @var UploadedFile|null $uploadedFile */
+        $uploadedFile = $request->files->get('object');
+        if ($uploadedFile === null)
+        {
+            return new JsonResponse(['error' => 'No file uploaded!'], Response::HTTP_BAD_REQUEST);
+        }
+
+        switch ($uploadedFile->getMimeType())
+        {
+            case 'image/bmp':
+                $previewImage = imagecreatefrombmp($uploadedFile->getPathname());
+                break;
+            case 'image/png':
+                $previewImage = imagecreatefrompng($uploadedFile->getPathname());
+                break;
+            default:
+                return new JsonResponse(['error' => 'File mime type not recognised!'], Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $object = $this->buildObject($request);
+            $image = $this->applyAnimatedPalette($previewImage, $object);
+            return $this->createImageResponse($image);
+        } catch (\Exception $ex) {
+            return new JsonResponse([
+                'error' => $ex->getMessage(),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    private function applyAnimatedPalette(GdImage $image, \RCTPHP\OpenRCT2\Object\WaterObject $object): string
+    {
+        $parts = $object->properties->palettes->getParts();
+        $colorsWaves = $parts[WaterPaletteGroup::WAVES_0->value]->colors;
+        $colorsSparkles = $parts[WaterPaletteGroup::SPARKLES_0->value]->colors;
+
+        $tmpFilename = tempnam('/tmp', 'animated');
+
+        $stitchcommand = "/usr/bin/apngasm {$tmpFilename}";
+
+        $group = $parts[WaterPaletteGroup::GENERAL->value];
+
+        $offset = $group->index;
+        for ($index = 0; $index < $group->numColors; $index++)
+        {
+            $rgb = $group->colors[$index];
+            imagecolorset($image, $index + $offset, $rgb->r, $rgb->g, $rgb->b);
+        }
+
+        /////////
+        //imagepng($image, $tmpFilename);
+        //return $tmpFilename;
+
+        ///
+
+        $images = [];
+        for ($currentFrame = 0; $currentFrame < 1/*self::NUM_ANIMATED_WATER_FRAMES*/; $currentFrame++)
+        {
+            for ($j = 0; $j < 5; $j++)
+            {
+                $actualFrame = self::NUM_ANIMATED_WATER_FRAMES - $currentFrame;
+                $subIndex = ($actualFrame + (3 * $j)) % 15;
+                $rgb = $colorsWaves[$subIndex];
+                imagecolorset($image, self::WAVE_START + $j, $rgb->r, $rgb->g, $rgb->b);
+                $rgb = $colorsSparkles[$subIndex];
+                imagecolorset($image, self::SPARKLE_START + $j, $rgb->r, $rgb->g, $rgb->b);
+            }
+
+            $imageName = tempnam('/tmp', "animation-{$currentFrame}");
+            imagepng($image, $imageName);
+            return $imageName;
+            $images[] = $imageName;
+            $stitchcommand .= " $imageName 1 10";
+        }
+
+        $ret = exec($stitchcommand);
+        foreach ($images as $imageName)
+        {
+           // @unlink($imageName);
+        }
+
+        var_dump($stitchcommand);
+        var_dump($ret);
+        die();
+
+        return $tmpFilename;
+    }
+
+    private function buildObject(Request $request): \RCTPHP\OpenRCT2\Object\WaterObject
     {
         $post = $request->request;
         $userIdentifier = $post->get('user_identifier');
@@ -234,7 +370,6 @@ final class Palette extends AbstractController
             )
         );
 
-        $zipper = new Zipper($object);
-        return $zipper->getResponse();
+        return $object;
     }
 }

@@ -39,8 +39,37 @@ function applyPalette(parsed)
         const color = palettes["sparkles-2"].colours[j];
         document.getElementById('palette-color-' + index).value = color;
     }
+}
 
+async function updatePreview()
+{
+    let ownFile = document.querySelector('#own-image-preview-file');
+    let response;
+    if (ownFile.files.length > 0)
+    {
+        let data = new FormData(document.querySelector('#palette-form'));
+        data.append('object', ownFile.files[0]);
 
+        response = await fetch('/palette/preview-own', {
+            method: 'POST',
+            body: data
+        });
+    }
+    else
+    {
+        response = await fetch('/palette/preview', {
+            method: 'POST',
+            body: new FormData(document.querySelector('#palette-form'))
+        });
+    }
+
+    response.blob().then((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            document.querySelector('#palette-preview-img').src = reader.result;
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -48,6 +77,12 @@ document.addEventListener('DOMContentLoaded', function() {
     {
         event.preventDefault();
         send(this.getAttribute('action'), this.getAttribute('method'), new FormData(this)).then();
+    });
+
+    document.querySelector('#palette-preview-button').addEventListener('click', function (event)
+    {
+        event.preventDefault();
+        updatePreview();
     });
 
     document.querySelector('#palette-load-default').addEventListener('click', function (event)
@@ -86,6 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const parsed = JSON.parse(text);
 
                     applyPalette(parsed);
+                    updatePreview();
 
                     document.getElementById('palette-start').style.display = 'none';
                     document.getElementById('palette-form').style.display = 'block';

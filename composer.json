@@ -9,6 +9,7 @@
         "ext-gd": "*",
         "ext-iconv": "*",
         "ext-zip": "*",
+        "cyndaron/binary-handler": "dev-master",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -64,6 +65,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/Gymnasiast/RCT-PHP"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/Cyndaron/binary-handler.git"
         }
     ],
     "autoload": {
