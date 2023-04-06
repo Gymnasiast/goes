@@ -1,0 +1,117 @@
+@import "_mixins";
+
+//body.palette
+//{
+//    overflow: hidden;
+//}
+//
+//#palette-left
+//{
+//    overflow: scroll;
+//}
+
+#palette-form
+{
+    display: none;
+}
+
+#palette-right
+{
+    margin-left: auto;
+    display: none;
+}
+
+#palette-load-custom-input
+{
+    display: none;
+}
+
+#palette-save
+{
+    display: none;
+}
+
+.palette-color-outer
+{
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.palette-color
+{
+    appearance: none;
+    width: 42px;
+    height: 42px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+}
+
+#preview-window
+{
+    @include window-frame;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+#preview-window-title
+{
+    @include window-title;
+}
+
+#preview-window-body
+{
+    flex-grow: 1;
+    display: flex;
+    background-color: var(--rct-indian-red-7);
+}
+
+#preview-window-viewport
+{
+    flex-grow: 1;
+    border-top-color: var(--rct-indian-red-8);
+    border-left-color: var(--rct-indian-red-8);
+    border-right-color: var(--rct-indian-red-5);
+    border-bottom-color: var(--rct-indian-red-5);
+    margin: 2px 0 2px 2px;
+}
+
+#preview-window-right-toolbar
+{
+    min-width: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > * {
+        margin-top: 2px;
+        width: 26px;
+        height: 26px;
+        border: 1px solid transparent;
+        padding: 0;
+        border-radius: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            display: block;
+        }
+
+        &:hover {
+            border-top-color: var(--rct-indian-red-8);
+            border-left-color: var(--rct-indian-red-8);
+            border-right-color: var(--rct-indian-red-5);
+            border-bottom-color: var(--rct-indian-red-5);
+            background: transparent;
+        }
+    }
+}
+
+#own-image-preview
+{
+    display: none;
+}
