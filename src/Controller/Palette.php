@@ -206,9 +206,10 @@ final class Palette extends AbstractController
         $mimeType = $uploadedFile->getMimeType();
         switch ($mimeType)
         {
-//            case 'image/bmp':
-//                $previewImage = imagecreatefrombmp($uploadedFile->getPathname());
-//                break;
+            case 'image/bmp':
+            case 'image/x-ms-bmp':
+                $previewImage = imagecreatefrombmp($uploadedFile->getPathname());
+                break;
             case 'image/png':
                 $previewImage = imagecreatefrompng($uploadedFile->getPathname());
                 break;
