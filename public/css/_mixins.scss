@@ -1,0 +1,30 @@
+@mixin window-frame()
+{
+  border-top: 1px solid var(--rct-indian-red-8);
+  border-left: 1px solid var(--rct-indian-red-8);
+  border-right: 1px solid var(--rct-indian-red-5);
+  border-bottom: 1px solid var(--rct-indian-red-5);
+}
+
+@mixin window-title()
+{
+  background-color: var(--rct-indian-red-2);
+  padding: 2px;
+  color: var(--rct-white-lighter);
+  text-align: center;
+  font-weight: bold;
+  border-top: 1px solid var(--rct-indian-red-5);
+  border-left: 1px solid var(--rct-indian-red-5);
+  border-right: 1px solid var(--rct-indian-red-8);
+  border-bottom: 1px solid var(--rct-indian-red-8);
+  margin-bottom: 0;
+
+  font-size: 1rem;
+
+  //h1, h2, h3, h4, h5, h6
+  //{
+  //color: var(--rct-white-lighter);
+  font-family: sans-serif;
+  //border-bottom: 0;
+  //}
+}

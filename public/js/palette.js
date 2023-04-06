@@ -1,5 +1,8 @@
 'use strict';
 
+let previewFile;
+let initialized = false;
+
 function applyPalette(parsed)
 {
     const palettes = parsed.properties.palettes;
@@ -64,12 +67,46 @@ async function updatePreview()
     }
 
     response.blob().then((file) => {
+        previewFile = file;
+        previewFile.name = 'preview.png';
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             document.querySelector('#palette-preview-img').src = reader.result;
         }
     });
+}
+
+function maximizePreview()
+{
+    document.getElementById('palette-left').style.display = 'none';
+    document.getElementById('palette-right').style.width = 'auto';
+    document.getElementById('palette-preview-maximize').style.display = 'none';
+    document.getElementById('palette-preview-restore').style.display = 'flex';
+}
+
+function restorePreview()
+{
+    document.getElementById('palette-left').style.display = 'block';
+    document.getElementById('palette-right').style.width = '';
+    document.getElementById('palette-preview-maximize').style.display = 'flex';
+    document.getElementById('palette-preview-restore').style.display = 'none';
+}
+
+function afterLoad(text)
+{
+    const parsed = JSON.parse(text);
+
+    applyPalette(parsed);
+    restorePreview();
+    updatePreview();
+
+    //document.getElementById('palette-start').style.display = 'none';
+    document.getElementById('palette-form').style.display = 'block';
+    document.getElementById('palette-right').style.display = 'block';
+    document.getElementById('palette-save').style.display = 'inline-block';
+
+    initialized = true;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -79,29 +116,31 @@ document.addEventListener('DOMContentLoaded', function() {
         send(this.getAttribute('action'), this.getAttribute('method'), new FormData(this)).then();
     });
 
-    document.querySelector('#palette-preview-button').addEventListener('click', function (event)
-    {
-        event.preventDefault();
-        updatePreview();
-    });
-
     document.querySelector('#palette-load-default').addEventListener('click', function (event)
     {
+        if (initialized && !confirm("This will discard any changes you made to the palette. Do you want to continue?"))
+        {
+            return;
+        }
+
         fetch('/palette/get-default', {
             method: 'GET',
         }).then((response) => {
             if (response.status < 400)
             {
                 response.text().then((text) => {
-                    const parsed = JSON.parse(text);
-
-                    applyPalette(parsed);
-
-                    //document.getElementById('palette-start').style.display = 'none';
-                    document.getElementById('palette-form').style.display = 'block';
+                    afterLoad(text);
                 });
             }
         });
+    });
+
+    document.querySelector("#palette-load-custom-button").addEventListener('click', function (event)
+    {
+        if (initialized && !confirm("This will discard any changes you made to the palette. Do you want to continue?"))
+        {
+            event.preventDefault();
+        }
     });
 
     const customInput = document.querySelector('#palette-load-custom-input');
@@ -118,13 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.status < 400)
             {
                 response.text().then((text) => {
-                    const parsed = JSON.parse(text);
-
-                    applyPalette(parsed);
-                    updatePreview();
-
-                    //document.getElementById('palette-start').style.display = 'none';
-                    document.getElementById('palette-form').style.display = 'block';
+                    afterLoad(text);
                 });
             }
             else
@@ -137,6 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+
+
     document.getElementById('showAdvanced').checked = false;
     document.querySelector('#showAdvanced').addEventListener('click', function (event)
     {
@@ -144,5 +179,35 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('#advanced-options').setAttribute('class', '');
         else
             document.querySelector('#advanced-options').setAttribute('class', 'd-none');
+    });
+
+    /////
+    // Preview
+    /////
+
+    document.querySelector('#palette-preview-button').addEventListener('click', function (event)
+    {
+        event.preventDefault();
+        updatePreview();
+    });
+
+    document.querySelector("#palette-preview-maximize").addEventListener('click', function ()
+    {
+        maximizePreview();
+    });
+
+    document.querySelector("#palette-preview-restore").addEventListener('click', function ()
+    {
+        restorePreview();
+    });
+
+    document.querySelector("#palette-preview-save").addEventListener("click", function ()
+    {
+        download(previewFile);
+    });
+
+    document.querySelector("#own-image-preview-file").addEventListener('change', function ()
+    {
+        updatePreview();
     });
 });

@@ -46,6 +46,7 @@ final class SceneryGroup extends AbstractController
         asort($extraLanguages);
         return $this->render('scenery-group.html.twig', [
             'title' => 'Scenery Group Creator',
+            'bodyClass' => 'scenery-group',
             'extraLanguages' => $extraLanguages,
         ]);
     }

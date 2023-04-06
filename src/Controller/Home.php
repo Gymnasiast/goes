@@ -14,6 +14,7 @@ final class Home extends AbstractController
     {
         return $this->render('home.html.twig', [
             'title' => 'Gymnasiast’s Object Editor Site',
+            'bodyClass' => 'home',
         ]);
     }
 }

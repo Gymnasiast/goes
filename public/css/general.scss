@@ -1,0 +1,51 @@
+:root {
+    --rct-white-lighter: #eff3f3;
+
+    --rct-indian-red-0: #230000;
+    --rct-indian-red-1: #4F0000;
+    --rct-indian-red-2: #5F0707; // E.g. window title bar backgrounds.
+    --rct-indian-red-3: #6F0F0F;
+    --rct-indian-red-4: #7F1B1B;
+    --rct-indian-red-5: #8F2727;
+    --rct-indian-red-6: #A33B3B;
+    --rct-indian-red-7: #B34F4F;
+    --rct-indian-red-8: #C76767;
+    --rct-indian-red-9: #D77F7F;
+    --rct-indian-red-10: #EB9F9F;
+    --rct-indian-red-11: #FFBFBF;
+
+    --rct-grey-0: #172323;
+    --rct-grey-1: #233333;
+    --rct-grey-2: #2F4343;
+    --rct-grey-3: #3F5353;
+    --rct-grey-4: #4B6363;
+    --rct-grey-5: #5B7373;
+    --rct-grey-6: #6F8383;
+    --rct-grey-7: #839797;
+    --rct-grey-8: #9FAFAF;
+    --rct-grey-9: #B7C3C3;
+    --rct-grey-10: #D3DBDB;
+    --rct-grey-11: #EFF3F3;
+}
+
+.button-rct-gray
+{
+    border-radius: 0;
+    border-top-color: var(--rct-grey-8);
+    border-left-color: var(--rct-grey-8);
+    border-right-color: var(--rct-grey-5);
+    border-bottom-color: var(--rct-grey-5);
+    background-color: var(--rct-grey-7);
+}
+
+.button-rct-indian-red
+{
+    border-radius: 0;
+    border-top-color: var(--rct-indian-red-8);
+    border-left-color: var(--rct-indian-red-8);
+    border-right-color: var(--rct-indian-red-5);
+    border-bottom-color: var(--rct-indian-red-5);
+    background-color: var(--rct-indian-red-7);
+}
+
+

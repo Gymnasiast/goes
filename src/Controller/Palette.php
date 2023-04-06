@@ -14,6 +14,7 @@ use RCTPHP\OpenRCT2\Object\WaterProperties;
 use RCTPHP\OpenRCT2\Object\WaterPropertiesPalettes;
 use RCTPHP\RCT2\Object\DATDetector;
 use RCTPHP\RCT2\Object\WaterObject;
+use RCTPHP\Util\PCX\PCXImage;
 use RCTPHP\Util\RGB;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -59,6 +60,7 @@ final class Palette extends AbstractController
         asort($extraLanguages);
         return $this->render('palette.html.twig', [
             'title' => 'Palette Creator',
+            'bodyClass' => 'palette',
             'extraLanguages' => $extraLanguages,
         ]);
     }
@@ -167,6 +169,7 @@ final class Palette extends AbstractController
             "output.png",
         );
         $response = new Response(file_get_contents($filename), Response::HTTP_OK, [
+            'Content-Type' => 'image/png',
             'Content-Disposition' => $disposition
         ]);
 
@@ -200,16 +203,23 @@ final class Palette extends AbstractController
             return new JsonResponse(['error' => 'No file uploaded!'], Response::HTTP_BAD_REQUEST);
         }
 
-        switch ($uploadedFile->getMimeType())
+        $mimeType = $uploadedFile->getMimeType();
+        switch ($mimeType)
         {
-            case 'image/bmp':
-                $previewImage = imagecreatefrombmp($uploadedFile->getPathname());
-                break;
+//            case 'image/bmp':
+//                $previewImage = imagecreatefrombmp($uploadedFile->getPathname());
+//                break;
             case 'image/png':
                 $previewImage = imagecreatefrompng($uploadedFile->getPathname());
                 break;
+            case 'image/x-pcx':
+            case 'image/vnd.zbrush.pcx':
+                $reader = BinaryReader::fromFile($uploadedFile->getPathname());
+                $pcx = PCXImage::read($reader);
+                $previewImage = $pcx->exportAsGdImage();
+                break;
             default:
-                return new JsonResponse(['error' => 'File mime type not recognised!'], Response::HTTP_BAD_REQUEST);
+                return new JsonResponse(['error' => "File mime type {$mimeType} not supported!"], Response::HTTP_BAD_REQUEST);
         }
 
         try {

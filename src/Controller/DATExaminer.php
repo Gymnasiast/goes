@@ -16,7 +16,8 @@ final class DATExaminer extends AbstractController
     public function showForm(): Response
     {
         return $this->render('dat-examiner.html.twig', [
-            'title' => 'Scenery Group Creator',
+            'title' => 'DAT Examiner',
+            'bodyClass' => 'dat-examiner',
             'error' => null,
             'result' => false,
         ]);
@@ -30,7 +31,8 @@ final class DATExaminer extends AbstractController
         if ($file === null)
         {
             return $this->render('dat-examiner.html.twig', [
-                'title' => 'Scenery Group Creator',
+                'title' => 'DAT Examiner',
+                'bodyClass' => 'dat-examiner',
                 'error' => 'File upload did not work!',
                 'result' => false,
             ]);
@@ -41,6 +43,7 @@ final class DATExaminer extends AbstractController
 
         return $this->render('dat-examiner.html.twig', [
             'title' => 'Scenery Group Creator',
+            'bodyClass' => 'dat-examiner',
             'error' => null,
             'result' => true,
             'name' => $header->name,

@@ -1,27 +1,91 @@
-#palette-form
-{
-    display: none;
-}
+#palette-form {
+  display: none; }
 
-#palette-load-custom-input
-{
-    display: none;
-}
+#palette-right {
+  margin-left: auto;
+  display: none; }
 
-.palette-color-outer
-{
-    width: 40px;
-    height: 40px;
-    overflow: hidden;
-    display: inline-block;
-}
+#palette-load-custom-input {
+  display: none; }
 
-.palette-color
-{
-    appearance: none;
-    width: 42px;
-    height: 42px;
-    margin: -1px;
-    border: 0;
+#palette-save {
+  display: none; }
+
+.palette-color-outer {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  display: inline-block; }
+
+.palette-color {
+  appearance: none;
+  width: 42px;
+  height: 42px;
+  margin: -1px;
+  border: 0;
+  padding: 0; }
+
+#preview-window {
+  border-top: 1px solid var(--rct-indian-red-8);
+  border-left: 1px solid var(--rct-indian-red-8);
+  border-right: 1px solid var(--rct-indian-red-5);
+  border-bottom: 1px solid var(--rct-indian-red-5);
+  min-height: 300px;
+  display: flex;
+  flex-direction: column; }
+
+#preview-window-title {
+  background-color: var(--rct-indian-red-2);
+  padding: 2px;
+  color: var(--rct-white-lighter);
+  text-align: center;
+  font-weight: bold;
+  border-top: 1px solid var(--rct-indian-red-5);
+  border-left: 1px solid var(--rct-indian-red-5);
+  border-right: 1px solid var(--rct-indian-red-8);
+  border-bottom: 1px solid var(--rct-indian-red-8);
+  margin-bottom: 0;
+  font-size: 1rem;
+  font-family: sans-serif; }
+
+#preview-window-body {
+  flex-grow: 1;
+  display: flex;
+  background-color: var(--rct-indian-red-7); }
+
+#preview-window-viewport {
+  flex-grow: 1;
+  border-top-color: var(--rct-indian-red-8);
+  border-left-color: var(--rct-indian-red-8);
+  border-right-color: var(--rct-indian-red-5);
+  border-bottom-color: var(--rct-indian-red-5);
+  margin: 2px 0 2px 2px; }
+
+#preview-window-right-toolbar {
+  min-width: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  #preview-window-right-toolbar > * {
+    margin-top: 2px;
+    width: 26px;
+    height: 26px;
+    border: 1px solid transparent;
     padding: 0;
-}
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    #preview-window-right-toolbar > * img {
+      display: block; }
+    #preview-window-right-toolbar > *:hover {
+      border-top-color: var(--rct-indian-red-8);
+      border-left-color: var(--rct-indian-red-8);
+      border-right-color: var(--rct-indian-red-5);
+      border-bottom-color: var(--rct-indian-red-5);
+      background: transparent; }
+
+#own-image-preview {
+  display: none; }
+
+/*# sourceMappingURL=palette.css.map */
