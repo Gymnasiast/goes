@@ -271,6 +271,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.style.setProperty('--slider-hue', hueSlider.value);
     };
 
+    document.querySelectorAll('.palette-color').forEach(function (elem)
+    {
+        elem.addEventListener('change', function ()
+        {
+            updatePreview();
+        });
+    });
+
     document.querySelectorAll('.update-row-hue').forEach(function (elem)
     {
         elem.addEventListener('click', function (event)
