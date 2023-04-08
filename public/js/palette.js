@@ -2,9 +2,41 @@
 
 let previewFile;
 let initialized = false;
+let savedPaletteData = null;
+
+function applyMetadata()
+{
+    document.querySelector('#creators_names').value = savedPaletteData.authors.join(',');
+    document.querySelector('#version').value = savedPaletteData.version;
+    document.querySelector('#allow_ducks').checked = savedPaletteData.properties.allowDucks;
+    const strings = savedPaletteData.strings.name;
+    for (let language in strings)
+    {
+        if (strings.hasOwnProperty(language))
+        {
+            let translation = strings[language];
+            let inputPostfix = (language === 'en-GB') ? '' : ('_' + language);
+            let input = document.querySelector('#description' + inputPostfix);
+            if (input)
+            {
+                input.value = translation;
+            }
+        }
+    }
+}
+
+function clearExtraLanguages()
+{
+    document.querySelectorAll('.extra-language').forEach(function (elem)
+    {
+        elem.value = '';
+    });
+}
 
 function applyPalette(parsed)
 {
+    savedPaletteData = parsed;
+
     const palettes = parsed.properties.palettes;
     let index = 0;
     for (let j = 0; index < 236; j++, index++)
@@ -242,16 +274,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    //
+    // document.getElementById('showAdvanced').checked = false;
+    // document.querySelector('#showAdvanced').addEventListener('click', function (event)
+    // {
+    //     if (document.getElementById('showAdvanced').checked)
+    //         document.querySelector('#advanced-options').setAttribute('class', '');
+    //     else
+    //         document.querySelector('#advanced-options').setAttribute('class', 'd-none');
+    // });
 
-
-
-    document.getElementById('showAdvanced').checked = false;
-    document.querySelector('#showAdvanced').addEventListener('click', function (event)
+    document.querySelector('#clear-all-extra-languages').addEventListener('click', clearExtraLanguages);
+    document.querySelector('#apply-metadata').addEventListener('click', function ()
     {
-        if (document.getElementById('showAdvanced').checked)
-            document.querySelector('#advanced-options').setAttribute('class', '');
-        else
-            document.querySelector('#advanced-options').setAttribute('class', 'd-none');
+        if (confirm('This will overwrite all metadata fields with the data from the palette you loaded. You will need to update this data afterwards to avoid replacing someone else’s object. Do you wish to continue?'))
+        {
+            applyMetadata();
+        }
     });
 
     ////
