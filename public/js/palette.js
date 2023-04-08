@@ -268,9 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const updateColorSliderPreview = function ()
     {
-        let hsl = { h: hueSlider.value, s: 50, l: 50 };
-        let rgb = HSLToRGB(hsl);
-        document.querySelector('#update-row-hue-preview').style.backgroundColor = rgbToHex(rgb);
+        document.documentElement.style.setProperty('--slider-hue', hueSlider.value);
     };
 
     document.querySelectorAll('.update-row-hue').forEach(function (elem)
