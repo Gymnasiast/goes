@@ -319,43 +319,43 @@ final class Palette extends AbstractController
         $rgbGeneral = [];
         for ($index = 0; $index < 236; $index++)
         {
-            $hex = $post->get('palette_colour_' . $index);
+            $hex = $post->get('palette_color_' . $index);
             $rgbGeneral[] = RGB::fromHex($hex);
         }
         $rgbWaves0 = [];
         for (;$index < 251; $index++)
         {
-            $hex = $post->get('palette_colour_' . $index);
+            $hex = $post->get('palette_color_' . $index);
             $rgbWaves0[] = RGB::fromHex($hex);
         }
         $rgbWaves1 = [];
         for (; $index < 266; $index++)
         {
-            $hex = $post->get('palette_colour_' . $index);
+            $hex = $post->get('palette_color_' . $index);
             $rgbWaves1[] = RGB::fromHex($hex);
         }
         $rgbWaves2 = [];
         for (; $index < 281; $index++)
         {
-            $hex = $post->get('palette_colour_' . $index);
+            $hex = $post->get('palette_color_' . $index);
             $rgbWaves2[] = RGB::fromHex($hex);
         }
         $rgbSparkles0 = [];
         for (; $index < 296; $index++)
         {
-            $hex = $post->get('palette_colour_' . $index);
+            $hex = $post->get('palette_color_' . $index);
             $rgbSparkles0[] = RGB::fromHex($hex);
         }
         $rgbSparkles1 = [];
         for (; $index < 311; $index++)
         {
-            $hex = $post->get('palette_colour_' . $index);
+            $hex = $post->get('palette_color_' . $index);
             $rgbSparkles1[] = RGB::fromHex($hex);
         }
         $rgbSparkles2 = [];
         for (; $index < 326; $index++)
         {
-            $hex = $post->get('palette_colour_' . $index);
+            $hex = $post->get('palette_color_' . $index);
             $rgbSparkles2[] = RGB::fromHex($hex);
         }
 
