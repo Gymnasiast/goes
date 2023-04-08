@@ -110,4 +110,9 @@
   .hue-row + .hue-row {
     margin-top: 10px; }
 
+#update-row-hue-preview {
+  display: inline-block;
+  width: 20px;
+  height: 20px; }
+
 /*# sourceMappingURL=palette.css.map */

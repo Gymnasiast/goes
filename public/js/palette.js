@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
         let hsl = { h: hueSlider.value, s: 50, l: 50 };
         let rgb = HSLToRGB(hsl);
-        document.querySelector('#update-row-hue-preview').style.color = rgbToHex(rgb);
+        document.querySelector('#update-row-hue-preview').style.backgroundColor = rgbToHex(rgb);
     };
 
     document.querySelectorAll('.update-row-hue').forEach(function (elem)
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePreview();
     });
 
-    hueSlider.addEventListener('change', updateColorSliderPreview);
+    hueSlider.addEventListener('input', updateColorSliderPreview);
 
     /////
     // Preview
