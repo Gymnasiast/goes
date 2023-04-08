@@ -293,6 +293,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             colorElem.value = rgbToHex(rgbOut);
         }
+
+        updatePreview();
     });
 
     hueSlider.addEventListener('change', updateColorSliderPreview);
