@@ -93,12 +93,27 @@ function restorePreview()
     document.getElementById('palette-preview-restore').style.display = 'none';
 }
 
+function dockPreview()
+{
+    document.getElementById('palette-right').classList.remove('preview-undocked');
+    document.getElementById('palette-preview-dock').style.display = 'none';
+    document.getElementById('palette-preview-undock').style.display = 'flex';
+}
+
+function undockPreview()
+{
+    document.getElementById('palette-right').classList.add('preview-undocked');
+    document.getElementById('palette-preview-dock').style.display = 'flex';
+    document.getElementById('palette-preview-undock').style.display = 'none';
+}
+
 function afterLoad(text)
 {
     const parsed = JSON.parse(text);
 
     applyPalette(parsed);
     restorePreview();
+    dockPreview();
     updatePreview();
 
     //document.getElementById('palette-start').style.display = 'none';
@@ -317,6 +332,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector("#palette-preview-restore").addEventListener('click', function ()
     {
         restorePreview();
+    });
+
+    document.querySelector("#palette-preview-undock").addEventListener('click', function ()
+    {
+        undockPreview();
+    });
+
+    document.querySelector("#palette-preview-dock").addEventListener('click', function ()
+    {
+        dockPreview();
     });
 
     document.querySelector("#palette-preview-save").addEventListener("click", function ()
