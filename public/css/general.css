@@ -25,7 +25,7 @@
   --rct-grey-10: #D3DBDB;
   --rct-grey-11: #EFF3F3; }
 
-.button-rct-gray {
+.button-rct-gray, .modal-dialog .modal-content .modal-header button {
   border-radius: 0;
   border-top-color: var(--rct-grey-8);
   border-left-color: var(--rct-grey-8);
@@ -39,6 +39,45 @@
   border-left-color: var(--rct-indian-red-8);
   border-right-color: var(--rct-indian-red-5);
   border-bottom-color: var(--rct-indian-red-5);
-  background-color: var(--rct-indian-red-7); }
+  background-color: var(--rct-indian-red-7);
+  color: var(--rct-white-lighter); }
+
+.modal-dialog .modal-content {
+  border-top: 1px solid var(--rct-indian-red-8);
+  border-left: 1px solid var(--rct-indian-red-8);
+  border-right: 1px solid var(--rct-indian-red-5);
+  border-bottom: 1px solid var(--rct-indian-red-5);
+  border-radius: 0; }
+  .modal-dialog .modal-content .modal-header {
+    background-color: var(--rct-indian-red-2);
+    padding: 2px;
+    color: var(--rct-white-lighter);
+    text-align: center;
+    font-weight: bold;
+    border-top: 1px solid var(--rct-indian-red-5);
+    border-left: 1px solid var(--rct-indian-red-5);
+    border-right: 1px solid var(--rct-indian-red-8);
+    border-bottom: 1px solid var(--rct-indian-red-8);
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 1rem;
+    padding: 0; }
+    .modal-dialog .modal-content .modal-header h1, .modal-dialog .modal-content .modal-header h2, .modal-dialog .modal-content .modal-header h3, .modal-dialog .modal-content .modal-header h4, .modal-dialog .modal-content .modal-header h5, .modal-dialog .modal-content .modal-header h6 {
+      color: var(--rct-white-lighter);
+      font-size: 1rem;
+      font-family: sans-serif;
+      font-weight: bold; }
+    .modal-dialog .modal-content .modal-header h1 {
+      flex-grow: 1; }
+    .modal-dialog .modal-content .modal-header button {
+      opacity: 1;
+      margin: 0;
+      padding: 0;
+      height: 28px;
+      width: 28px; }
+  .modal-dialog .modal-content .modal-footer {
+    justify-content: center; }
+    .modal-dialog .modal-content .modal-footer button {
+      min-width: 120px; }
 
 /*# sourceMappingURL=general.css.map */

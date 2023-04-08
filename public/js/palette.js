@@ -109,6 +109,64 @@ function afterLoad(text)
     initialized = true;
 }
 
+function componentToHex(c)
+{
+    let hex = c.toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+}
+
+const RGBToHSL = (rgb) => {
+    let r = rgb.r;
+    let g = rgb.g;
+    let b = rgb.b;
+
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    const l = Math.max(r, g, b);
+    const s = l - Math.min(r, g, b);
+    const h = s
+        ? l === r
+            ? (g - b) / s
+            : l === g
+                ? 2 + (b - r) / s
+                : 4 + (r - g) / s
+        : 0;
+    return {
+        h: parseInt(Math.round(60 * h < 0 ? 60 * h + 360 : 60 * h)),
+        s: parseInt(Math.round(100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0))),
+        l: parseInt(Math.round(((100 * (2 * l - s)) / 2)))
+    };
+};
+
+const HSLToRGB = (hsl) => {
+    let h = hsl.h;
+    let s = hsl.s;
+    let l = hsl.l;
+
+    s /= 100;
+    l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n =>
+        l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    return { r: parseInt(Math.round(255 * f(0))), g: parseInt(Math.round(255 * f(8))), b: parseInt(Math.round(255 * f(4))) };
+};
+
+function hexToRGB(hex)
+{
+    return {
+        r: parseInt(hex.substring(1, 3), 16),
+        g: parseInt(hex.substring(3, 5), 16),
+        b: parseInt(hex.substring(5, 7), 16)
+    };
+}
+
+function rgbToHex(rgb)
+{
+    return '#' + componentToHex(rgb.r) + componentToHex(rgb.g) + componentToHex(rgb.b);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#palette-form').addEventListener('submit', function (event)
     {
@@ -180,6 +238,64 @@ document.addEventListener('DOMContentLoaded', function() {
         else
             document.querySelector('#advanced-options').setAttribute('class', 'd-none');
     });
+
+    ////
+    // Row hue
+    ///
+
+    function getStartElement(rowIndex)
+    {
+        return document.querySelector('#palette-color-' + rowIndex * 12);
+    }
+
+    const modalRowIndexInput = document.querySelector('#update-row-hue-row-index');
+    const hueSlider = document.querySelector('#update-row-hue-input');
+
+    const updateColorSliderPreview = function ()
+    {
+        let hsl = { h: hueSlider.value, s: 50, l: 50 };
+        let rgb = HSLToRGB(hsl);
+        document.querySelector('#update-row-hue-preview').style.color = rgbToHex(rgb);
+    };
+
+    document.querySelectorAll('.update-row-hue').forEach(function (elem)
+    {
+        elem.addEventListener('click', function (event)
+        {
+            const rowIndex = parseInt(elem.attributes['data-row-index'].value);
+            modalRowIndexInput.value = rowIndex;
+
+            let startElem = getStartElement(rowIndex);
+            let startHSL = RGBToHSL(hexToRGB(startElem.value));
+            hueSlider.value = startHSL.h;
+            updateColorSliderPreview();
+        });
+    });
+
+    document.querySelector('#update-row-hue-apply').addEventListener('click', function ()
+    {
+        const rowIndex = parseInt(modalRowIndexInput.value);
+        const startColor = rowIndex * 12;
+        const endColor = ((rowIndex + 1) * 12) - 1;
+        const selectedHue = parseInt(hueSlider.value);
+        const startElem = getStartElement(rowIndex);
+        const startHSL = RGBToHSL(hexToRGB(startElem.value));
+        const hueOffset = selectedHue - startHSL.h;
+
+        for (let colorIndex = startColor; colorIndex <= endColor; colorIndex++)
+        {
+            let colorElem = document.querySelector('#palette-color-' + colorIndex);
+
+            let rgbIn = hexToRGB(colorElem.value);
+            let hsl = RGBToHSL(rgbIn);
+            hsl.h = (hsl.h + hueOffset) % 360;
+            let rgbOut = HSLToRGB(hsl);
+
+            colorElem.value = rgbToHex(rgbOut);
+        }
+    });
+
+    hueSlider.addEventListener('change', updateColorSliderPreview);
 
     /////
     // Preview

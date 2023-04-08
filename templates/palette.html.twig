@@ -17,127 +17,9 @@
             <button id="palette-save" type="submit" class="btn btn-primary button-rct-indian-red" form="palette-form">Save…</button>
         </div>
 
-        <form id="palette-form" action="#" method="post" enctype="multipart/form-data">
-            <h2>Metadata</h2>
-            <div class="mb-3">
-                <label for="user_identifier" class="form-label">Your identifier (required)</label>
-                <input type="text" pattern="[a-z0-9_]+" class="form-control" id="user_identifier" name="user_identifier" aria-describedby="user_identifier_help" required>
-                <div id="user_identifier_help" class="form-text">Usually similar to your user handle. This should be the same for all of your objects. a-z, 0-9 and underscores only. E.g.: <i>basssiiie</i></div>
-            </div>
-            <div class="mb-3">
-                <label for="object_identifier" class="form-label">Object identifier (required)</label>
-                <input type="text" pattern="[a-z0-9_]+" class="form-control" id="object_identifier" name="object_identifier" aria-describedby="object_identifier_help" required>
-                <div id="object_identifier_help" class="form-text">A short, unique name for your object. a-z, 0-9 and underscores only. E.g.: <i>black_and_white</i></div>
-            </div>
-            <div class="mb-3">
-                <label for="creators_names" class="form-label">Creator’s name(s) (required)</label>
-                <input type="text"  class="form-control" id="creators_names" name="creators_names" aria-describedby="creators_names_help" required>
-                <div id="creators_names_help" class="form-text">The names of the people who created this object, separated by commas. E.g.: <i>Bas Trebbel</i></div>
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description (UK English, required)</label>
-                <input type="text" class="form-control" id="description" name="description" aria-describedby="description_help" required>
-                <div id="description_help" class="form-text">The name of the palette style, as it appears in the Object Selection. E.g.: <i>Black and white palette</i></div>
-            </div>
-
-            <div class="mb-3">
-                <input type="checkbox" class="" id="allow_ducks" name="allow_ducks" aria-describedby="allow_ducks_help">
-                <label for="allow_ducks" class="form-label">Allow ducks on the water</label>
-                <div id="allow_ducks_help" class="form-text">Whether the water is suitable for ducks to swim in</div>
-            </div>
-
-            <h2>Colours</h2>
-
-            <h3>General</h3>
-            {% for row in (0..235)|batch(12) %}
-                <div>
-                    {% for i in row %}
-                        <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-
-            <h3>Water waves (sunny weather)</h3>
-            <div>
-                {% for i in (236..250) %}
-                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
-                {% endfor %}
-            </div>
-
-            <h3>Water waves (cloudy weather)</h3>
-            <div>
-                {% for i in (251..265) %}
-                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
-                {% endfor %}
-            </div>
-
-            <h3>Water waves (stormy weather)</h3>
-            <div>
-                {% for i in (266..280) %}
-                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
-                {% endfor %}
-            </div>
-
-            <h3>Water sparkles (sunny weather)</h3>
-            <div>
-                {% for i in (281..295) %}
-                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
-                {% endfor %}
-            </div>
-
-            <h3>Water sparkles (cloudy weather)</h3>
-            <div>
-                {% for i in (296..310) %}
-                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
-                {% endfor %}
-            </div>
-
-            <h3>Water sparkles (stormy weather)</h3>
-            <div>
-                {% for i in (311..325) %}
-                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
-                {% endfor %}
-            </div>
-
-            <h2>Advanced options</h2>
-
-            <div class="mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="showAdvanced">
-                    <label class="form-check-label" for="showAdvanced">
-                        Show advanced options
-                    </label>
-                    <div id="showAdvanced_help" class="form-text">These allow for adding translations and specifying a version number</div>
-
-                </div>
-            </div>
-
-            <div id="advanced-options" class="d-none">
-                <div class="mb-3">
-                    <label for="version" class="form-label">Version</label>
-                    <input type="text" pattern="[0-9]+(\.[0-9]+){1,2}" class="form-control" id="version" name="version" aria-describedby="version_help" value="1.0">
-                    <div id="version_help" class="form-text">A version number. 0-9 and dots only. May be left blank to default to 1.0. E.g.: <i>1.0</i></div>
-                </div>
-
-                <h2>Style description (in other languages)</h2>
-                <div id="description_extra_help" class="form-text">
-                    The name of the palette in other languages, as it appears in the Object Selection.<br>
-                    <b>Only fill in languages you know, leave the rest blank.</b><br>
-                    E.g.: <i>Style acide</i><br>
-                </div>
-
-                {% for code, description in extraLanguages %}
-                    <div class="mb-3">
-                        <label for="description_{{ code }}" class="form-label">{{ description }}</label>
-                        <input type="text" class="form-control" id="description_{{ code }}" name="description_{{ code }}" aria-describedby="description_extra_help">
-                    </div>
-                {% endfor %}
-            </div>
-        </form>
     </div>
 
     <div id="palette-right" class="col-xl-6">
-
         <div id="preview-window">
             <h2 id="preview-window-title">Preview</h2>
             <div id="preview-window-body">
@@ -169,6 +51,172 @@
         </form>
     </div>
 
+    <form id="palette-form" action="#" method="post" enctype="multipart/form-data">
+        <h2>Metadata</h2>
+        <div class="mb-3">
+            <label for="user_identifier" class="form-label">Your identifier (required)</label>
+            <input type="text" pattern="[a-z0-9_]+" class="form-control" id="user_identifier" name="user_identifier" aria-describedby="user_identifier_help" required>
+            <div id="user_identifier_help" class="form-text">Usually similar to your user handle. This should be the same for all of your objects. a-z, 0-9 and underscores only. E.g.: <i>basssiiie</i></div>
+        </div>
+        <div class="mb-3">
+            <label for="object_identifier" class="form-label">Object identifier (required)</label>
+            <input type="text" pattern="[a-z0-9_]+" class="form-control" id="object_identifier" name="object_identifier" aria-describedby="object_identifier_help" required>
+            <div id="object_identifier_help" class="form-text">A short, unique name for your object. a-z, 0-9 and underscores only. E.g.: <i>black_and_white</i></div>
+        </div>
+        <div class="mb-3">
+            <label for="creators_names" class="form-label">Creator’s name(s) (required)</label>
+            <input type="text"  class="form-control" id="creators_names" name="creators_names" aria-describedby="creators_names_help" required>
+            <div id="creators_names_help" class="form-text">The names of the people who created this object, separated by commas. E.g.: <i>Bas Trebbel</i></div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description (UK English, required)</label>
+            <input type="text" class="form-control" id="description" name="description" aria-describedby="description_help" required>
+            <div id="description_help" class="form-text">The name of the palette style, as it appears in the Object Selection. E.g.: <i>Black and white palette</i></div>
+        </div>
+
+        <div class="mb-3">
+            <input type="checkbox" class="" id="allow_ducks" name="allow_ducks" aria-describedby="allow_ducks_help">
+            <label for="allow_ducks" class="form-label">Allow ducks on the water</label>
+            <div id="allow_ducks_help" class="form-text">Whether the water is suitable for ducks to swim in</div>
+        </div>
+
+        <h2>Colours</h2>
+
+        <h3>General</h3>
+        {% for row in (0..235)|batch(12) %}
+            <div class="hue-row">
+                <div class="hue-row-colors">
+                    {% for i in row %}
+                        <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
+                    {% endfor %}
+                </div>
+                {% if (loop.index0 <= 17) %}
+                    <button
+                            id="update-row-hue-{{ loop.index0 }}"
+                            class="update-row-hue btn button-rct-indian-red"
+                            data-row-index="{{ loop.index0 }}"
+                            type="button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#change-row-hue"
+                    >Change row hue...</button>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <h3>Water waves (sunny weather)</h3>
+        <div class="hue-row">
+            <div class="hue-row-colors">
+                {% for i in (236..250) %}
+                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <h3>Water waves (cloudy weather)</h3>
+        <div class="hue-row">
+            <div class="hue-row-colors">
+                {% for i in (251..265) %}
+                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <h3>Water waves (stormy weather)</h3>
+        <div class="hue-row">
+            <div class="hue-row-colors">
+                {% for i in (266..280) %}
+                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <h3>Water sparkles (sunny weather)</h3>
+        <div class="hue-row">
+            <div class="hue-row-colors">
+                {% for i in (281..295) %}
+                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h3>Water sparkles (cloudy weather)</h3>
+        <div class="hue-row">
+            <div class="hue-row-colors">
+                {% for i in (296..310) %}
+                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h3>Water sparkles (stormy weather)</h3>
+        <div class="hue-row">
+            <div class="hue-row-colors">
+                {% for i in (311..325) %}
+                    <div class="palette-color-outer"><input type="color" id="palette-color-{{ i }}" name="palette_colour_{{ i }}" class="palette-color" data-color-index="{{ i }}" title="Colour index {{ i }}"/></div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h2>Advanced options</h2>
+
+        <div class="mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="showAdvanced">
+                <label class="form-check-label" for="showAdvanced">
+                    Show advanced options
+                </label>
+                <div id="showAdvanced_help" class="form-text">These allow for adding translations and specifying a version number</div>
+
+            </div>
+        </div>
+
+        <div id="advanced-options" class="d-none">
+            <div class="mb-3">
+                <label for="version" class="form-label">Version</label>
+                <input type="text" pattern="[0-9]+(\.[0-9]+){1,2}" class="form-control" id="version" name="version" aria-describedby="version_help" value="1.0">
+                <div id="version_help" class="form-text">A version number. 0-9 and dots only. May be left blank to default to 1.0. E.g.: <i>1.0</i></div>
+            </div>
+
+            <h2>Style description (in other languages)</h2>
+            <div id="description_extra_help" class="form-text">
+                The name of the palette in other languages, as it appears in the Object Selection.<br>
+                <b>Only fill in languages you know, leave the rest blank.</b><br>
+                E.g.: <i>Style acide</i><br>
+            </div>
+
+            {% for code, description in extraLanguages %}
+                <div class="mb-3">
+                    <label for="description_{{ code }}" class="form-label">{{ description }}</label>
+                    <input type="text" class="form-control" id="description_{{ code }}" name="description_{{ code }}" aria-describedby="description_extra_help">
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+
+
+    <!-- Modal -->
+    <div class="modal" id="change-row-hue" tabindex="-1" aria-labelledby="change-row-hue-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="change-row-hue-label">Change row hue</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="update-row-hue-row-index">
+                    <input id="update-row-hue-input" type="range" min="0" max="359" value="180">
+                    <span id="update-row-hue-preview" style="color: #000000">◼</span>
+                </div>
+                <div class="modal-footer">
+                    <button id="update-row-hue-apply" type="button" class="btn btn-primary button-rct-indian-red" data-bs-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-secondary button-rct-indian-red" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}

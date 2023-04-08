@@ -1,3 +1,5 @@
+@import "_mixins";
+
 :root {
     --rct-white-lighter: #eff3f3;
 
@@ -46,6 +48,46 @@
     border-right-color: var(--rct-indian-red-5);
     border-bottom-color: var(--rct-indian-red-5);
     background-color: var(--rct-indian-red-7);
+    color: var(--rct-white-lighter);
 }
+
+.modal-dialog
+{
+    .modal-content
+    {
+        @include window-frame;
+
+        .modal-header
+        {
+            @include window-title;
+            padding: 0;
+
+            h1
+            {
+                flex-grow: 1;
+            }
+
+            button
+            {
+                @extend .button-rct-gray;
+                opacity: 1;
+                margin: 0;
+                padding: 0;
+                height: 28px;
+                width: 28px;
+            }
+        }
+
+        .modal-footer
+        {
+            justify-content: center;
+            button
+            {
+                min-width: 120px;
+            }
+        }
+    }
+}
+
 
 

@@ -115,3 +115,25 @@
 {
     display: none;
 }
+
+.hue-row
+{
+    display: flex;
+    flex-wrap: wrap;
+
+    .hue-row-colors
+    {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .update-row-hue
+    {
+        margin-left: 10px;
+    }
+
+    + .hue-row
+    {
+        margin-top: 10px;
+    }
+}
