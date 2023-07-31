@@ -5,7 +5,7 @@ twig:
             /: Home
             /music: Music
             /scenery-group: Scenery Groups
-            /palette: Palettes
+            /palette: Palettes (BETA)
             /dat-examiner: DAT Examiner
 when@test:
     twig:
