@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Base\Metadata;
 use App\Base\Zipper;
+use Cyndaron\BinaryHandler\BinaryReader;
 use Exception;
 use GdImage;
 use RCTPHP\OpenRCT2\Object\SceneryGroupObject;
@@ -139,8 +140,8 @@ final class SceneryGroup extends AbstractController
         $extension = strtolower($object->getClientOriginalExtension());
         if ($extension === 'dat')
         {
-            $stream = fopen($object->getPathname(), 'rb');
-            $header = new DATHeader($stream);
+            $reader = BinaryReader::fromFile($object->getPathname());
+            $header = new DATHeader($reader);
             $flags = str_pad(strtoupper(dechex($header->flags)), 8, '0', STR_PAD_LEFT);
             $identifier = "\$DAT:{$flags}|{$header->name}";
             return new JsonResponse(['type' => 'dat', 'identifier' => $identifier]);
