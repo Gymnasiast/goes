@@ -25,8 +25,74 @@
             <tr><td>Scenery group entry</td><td><pre>"{{ sceneryGroupEntry }}"</pre></td></tr>
             <tr><th colspan="2">Data</th></tr>
             <tr><td>Type</td><td>{{ objectType }}</td></tr>
-            <tr><td>Short description</td><td>{{ shortDescription }}</td></tr>
+
+            {% if (objectType != 'Scenario Text') %}
+                <tr><td>Short description</td><td>{{ shortDescription }}</td></tr>
+            {% endif %}
         </table>
+
+        {% if (objectType == 'Scenario Text') %}
+            <h2>Scenario name</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th class="language-code">Code</th>
+                    <th>Contents</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for string in stringTables.scenario_name.strings %}
+                    <tr>
+                        <td>{{ string.language.getIsoCode() }}</td>
+                        <td>{{ string.toUtf8() }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+            <h2>Park name</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th class="language-code">Code</th>
+                    <th>Contents</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for string in stringTables.park_name.strings %}
+                    <tr>
+                        <td>{{ string.language.getIsoCode() }}</td>
+                        <td>{{ string.toUtf8() }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+            <h2>Details</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th class="language-code">Code</th>
+                    <th>Contents</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for string in stringTables.description.strings %}
+                    <tr>
+                        <td>{{ string.language.getIsoCode() }}</td>
+                        <td>{{ string.toUtf8() }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        {% endif %}
     {% endif %}
 
 {% endblock %}
+
+{% block extraStyles %}
+    <link rel="stylesheet" href="{{ asset('css/dat-examiner.css') }}"/>
+{% endblock extraStyles %}

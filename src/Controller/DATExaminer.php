@@ -42,7 +42,7 @@ final class DATExaminer extends AbstractController
         }
 
         $reader = BinaryReader::fromFile($file->getPathname());
-        $detector = new DATDetector($reader);
+        $detector = DATDetector::fromReader($reader);
         $header = $detector->getHeader();
         $object = $detector->getObject();
 
@@ -60,6 +60,7 @@ final class DATExaminer extends AbstractController
             "Scenario Text",
         ];
         $shortDescription = 'N/A';
+        $stringTables = [];
         if ($object instanceof StringTableOwner)
         {
             $stringTables = $object->getStringTables();
@@ -77,7 +78,7 @@ final class DATExaminer extends AbstractController
         }
 
         return $this->render('dat-examiner.html.twig', [
-            'title' => 'Scenery Group Creator',
+            'title' => 'DAT Examiner',
             'bodyClass' => 'dat-examiner',
             'error' => null,
             'result' => true,
@@ -88,6 +89,7 @@ final class DATExaminer extends AbstractController
             'sceneryGroupEntry' => $header->getAsSceneryGroupListEntry(),
             'objectType' => $typeMap[$header->getType()] ?? 'Unknown',
             'shortDescription' => $shortDescription,
+            'stringTables' => $stringTables,
         ]);
     }
 }
