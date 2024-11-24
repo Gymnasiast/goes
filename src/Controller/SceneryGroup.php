@@ -141,7 +141,7 @@ final class SceneryGroup extends AbstractController
         if ($extension === 'dat')
         {
             $reader = BinaryReader::fromFile($object->getPathname());
-            $header = new DATHeader($reader);
+            $header = DATHeader::fromReader($reader);
             $flags = str_pad(strtoupper(dechex($header->flags)), 8, '0', STR_PAD_LEFT);
             $identifier = "\$DAT:{$flags}|{$header->name}";
             return new JsonResponse(['type' => 'dat', 'identifier' => $identifier]);
