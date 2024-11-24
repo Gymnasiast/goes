@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Base\Metadata;
 use App\Base\Zipper;
+use Exception;
 use RCTPHP\OpenRCT2\Object\MusicObject;
 use RuntimeException;
 use GdImage;
@@ -48,7 +49,7 @@ final class Music extends AbstractController
     {
         try {
             return $this->buildObject($request);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);

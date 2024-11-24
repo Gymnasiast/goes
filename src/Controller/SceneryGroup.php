@@ -57,7 +57,7 @@ final class SceneryGroup extends AbstractController
     {
         try {
             return $this->buildObject($request);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);

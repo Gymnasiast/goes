@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use RCTPHP\RCT2\Object\DATDetector;
-use RCTPHP\RCT2\Object\DATHeader;
 use RCTPHP\Sawyer\Object\StringTable;
 use RCTPHP\Sawyer\Object\StringTableOwner;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

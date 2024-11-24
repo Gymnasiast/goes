@@ -5,9 +5,9 @@ namespace App\Controller;
 
 use App\Base\Metadata;
 use App\Base\Zipper;
+use Exception;
 use GdImage;
 use RCTPHP\ExternalTools\RCT2PaletteMakerFile;
-use RCTPHP\OpenRCT2\Object\MusicObject;
 use RCTPHP\OpenRCT2\Object\ObjectSerializer;
 use RCTPHP\OpenRCT2\Object\WaterPaletteGroup;
 use RCTPHP\OpenRCT2\Object\WaterProperties;
@@ -17,7 +17,6 @@ use RCTPHP\RCT2\Object\WaterObject;
 use RCTPHP\Util\PCX\PCXImage;
 use RCTPHP\Util\RGB;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,16 +32,13 @@ use function array_map;
 use function asort;
 use function explode;
 use function file_get_contents;
-use function hexdec;
 use function imagecreatefrombmp;
 use function imagecreatefrompng;
 use function imagepng;
 use function is_array;
 use function json_decode;
-use function json_encode;
 use function stream_get_contents;
 use function strtolower;
-use function substr;
 use function tempnam;
 use function unlink;
 use function var_dump;
@@ -155,7 +151,7 @@ final class Palette extends AbstractController
             $object = $this->buildObject($request);
             $zipper = new Zipper($object);
             return $zipper->getResponse();
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -186,7 +182,7 @@ final class Palette extends AbstractController
             $previewImage = imagecreatefrompng($previewImageFilename);
             $image = $this->applyAnimatedPalette($previewImage, $object);
             return $this->createImageResponse($image);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -227,7 +223,7 @@ final class Palette extends AbstractController
             $object = $this->buildObject($request);
             $image = $this->applyAnimatedPalette($previewImage, $object);
             return $this->createImageResponse($image);
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
