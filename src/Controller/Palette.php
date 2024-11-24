@@ -115,7 +115,7 @@ final class Palette extends AbstractController
                 return $this->checkJson($data);
             case 'dat':
                 $reader = BinaryReader::fromFile($uploadedFile->getPathname());
-                $detector = new DATDetector($reader);
+                $detector = DATDetector::fromReader($reader);
                 $object = $detector->getObject();
                 if (!$object instanceof WaterObject)
                 {
