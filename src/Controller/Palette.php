@@ -216,7 +216,7 @@ final class Palette extends AbstractController
             case 'image/x-pcx':
             case 'image/vnd.zbrush.pcx':
                 $reader = BinaryReader::fromFile($uploadedFile->getPathname());
-                $pcx = PCXImage::read($reader);
+                $pcx = PCXImage::fromReader($reader);
                 $previewImage = $pcx->exportAsGdImage();
                 break;
             default:
