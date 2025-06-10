@@ -299,6 +299,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    document.querySelector('#palette-export').addEventListener('click', function ()
+    {
+        const postBody = new FormData(document.querySelector('#palette-form'));
+        send('/palette/export', 'POST', postBody);
+    });
+
     ////
     // Row hue
     ///

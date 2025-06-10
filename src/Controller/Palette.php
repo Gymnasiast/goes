@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Throwable;
 use Cyndaron\BinaryHandler\BinaryReader;
@@ -378,5 +379,39 @@ final class Palette extends AbstractController
         );
 
         return $object;
+    }
+
+    #[Route('/palette/export', methods: ['POST'])]
+    public function exportToRCT2PaletteMaker(Request $request): StreamedResponse
+    {
+        $width = 16;
+        $image = imagecreatetruecolor($width, 21);
+
+        $post = $request->request;
+        for ($index = 0; $index < 326; $index++)
+        {
+            $hex = $post->get('palette_color_' . $index);
+            $rgb = RGB::fromHex($hex);
+            $colorIndex = imagecolorallocate($image, $rgb->r, $rgb->g, $rgb->b);
+
+            $row = (int)floor($index / $width);
+            $column = $index % $width;
+
+            imagesetpixel($image, $column, $row, $colorIndex);
+        }
+
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            "output.bmp",
+        );
+        return new StreamedResponse(
+            callback: function() use ($image) {
+                imagebmp($image);
+            },
+            headers: [
+                'Content-Type' => 'image/bmp',
+                'Content-Disposition' => $disposition,
+            ]
+        );
     }
 }
