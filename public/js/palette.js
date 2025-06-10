@@ -251,6 +251,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const customInput = document.querySelector('#palette-load-custom-input');
     customInput.addEventListener('change', function (event)
     {
+        if (customInput.files.length === 0)
+        {
+            return;
+        }
+
         const file = customInput.files[0];
         let formData = new FormData();
         formData.append('object', file);
@@ -272,6 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert(parsed.error);
                 });
             }
+            customInput.value = null;
         });
     });
     //
