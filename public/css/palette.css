@@ -8,7 +8,7 @@
 #palette-load-custom-input {
   display: none; }
 
-#palette-save {
+#palette-export, #palette-save {
   display: none; }
 
 .palette-color-outer {

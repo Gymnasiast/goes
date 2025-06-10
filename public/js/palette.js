@@ -151,6 +151,7 @@ function afterLoad(text)
     //document.getElementById('palette-start').style.display = 'none';
     document.getElementById('palette-form').style.display = 'block';
     document.getElementById('palette-right').style.display = 'block';
+    document.getElementById('palette-export').style.display = 'inline-block';
     document.getElementById('palette-save').style.display = 'inline-block';
 
     initialized = true;
