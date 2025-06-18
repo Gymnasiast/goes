@@ -1,10 +1,11 @@
 'use strict';
 
+const MAX_TRACKS = 30;
 let currentNumTrackFields = 1;
 
 function addAnotherTrack()
 {
-    if (currentNumTrackFields >= 20)
+    if (currentNumTrackFields >= MAX_TRACKS)
     {
         return;
     }
@@ -45,7 +46,7 @@ function addAnotherTrack()
 
     container.append(fragment);
 
-    if (currentNumTrackFields >= 20)
+    if (currentNumTrackFields >= MAX_TRACKS)
     {
         document.querySelector('#addAnotherTrack').disabled = true;
     }
