@@ -35,27 +35,32 @@
         </div>
 
         <h2>Music files</h2>
-        <p>Each music style can have multiple tracks, although most styles will likely have a single track. You can leave tracks 2 and 3 blank if this is the case. <b>Music must be in OGG Vorbis format.</b></p>
+        <p>Each music style can have multiple tracks (up to 20), although most styles will likely have a single track. Empty tracks are ignored.<b>Music must be in OGG Vorbis format.</b></p>
 
-        {% for i in 1..maxTracks %}
-            <h3>Track {{ i }}{% if loop.first %} (required){% endif %}</h3>
+        <div id="musicTracksContainer">
+
+            <h3>Track 1 (required)</h3>
 
             <div class="mb-3">
-                <label for="track_{{ i }}_upload" class="form-label">Upload</label>
-                <input type="file" class="form-control" id="track_{{ i }}_upload" accept="audio/ogg" name="track_{{ i }}_upload" {% if loop.first %} required {% endif %} aria-describedby="track_{{ i }}_upload_help">
-                <div id="track_{{ i }}_upload_help" class="form-text">The music file itself.</div>
+                <label for="track_1_upload" class="form-label">Upload</label>
+                <input type="file" class="form-control" id="track_1_upload" accept="audio/ogg" name="track_1_upload" required aria-describedby="track_1_upload_help">
+                <div id="track_1_upload_help" class="form-text">The music file itself.</div>
             </div>
             <div class="mb-3">
-                <label for="track_{{ i }}_name" class="form-label">Track name</label>
-                <input type="text" class="form-control" id="track_{{ i }}_name" name="track_{{ i }}_name" aria-describedby="track_{{ i }}_name_help">
-                <div id="track_{{ i }}_name_help" class="form-text">Name of this track. May be left blank. E.g.: <i>Airtime Junkies</i></div>
+                <label for="track_1_name" class="form-label">Track name</label>
+                <input type="text" class="form-control" id="track_1_name" name="track_1_name" aria-describedby="track_1_name_help">
+                <div id="track_1_name_help" class="form-text">Name of this track. May be left blank. E.g.: <i>Airtime Junkies</i></div>
             </div>
             <div class="mb-3">
-                <label for="track_{{ i }}_composer" class="form-label">Composer</label>
-                <input type="text" class="form-control" id="track_{{ i }}_composer" name="track_{{ i }}_composer" aria-describedby="track_{{ i }}_composer_help">
-                <div id="track_{{ i }}_composer_help" class="form-text">Composer of this track. May be left blank. E.g.: <i>Jalmaan</i></div>
+                <label for="track_1_composer" class="form-label">Composer</label>
+                <input type="text" class="form-control" id="track_1_composer" name="track_1_composer" aria-describedby="track_1_composer_help">
+                <div id="track_1_composer_help" class="form-text">Composer of this track. May be left blank. E.g.: <i>Jalmaan</i></div>
             </div>
-        {% endfor %}
+        </div>
+
+        <button type="button" id="addAnotherTrack" class="btn btn-secondary">
+            ➕ Add another track
+        </button>
 
         <h2>Advanced options</h2>
 

@@ -25,7 +25,7 @@ use function trim;
 
 final class Music extends AbstractController
 {
-    private const MAX_MUSIC_TRACKS = 3;
+    private const MAX_MUSIC_TRACKS = 20;
 
     private const FILE_FORMAT = [
         'audio/ogg' => 'ogg',
