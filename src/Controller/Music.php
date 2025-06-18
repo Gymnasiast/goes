@@ -67,6 +67,7 @@ final class Music extends AbstractController
         $styleDescriptionEnglish = $post->get('style_description');
         $version = $post->get('version') ?: '1.0';
         $previewImage = $this->getPreviewImage($request);
+        $isMerryGoRound = (bool)(int)$post->get('is_merry_go_round');
 
         $tracks = [];
         $filemap = [];
@@ -124,6 +125,12 @@ final class Music extends AbstractController
         $object->properties = [
             'tracks' => $tracks,
         ];
+        if ($isMerryGoRound)
+        {
+            $object->properties['niceFactor'] = 1;
+            $object->properties['rideTypes'] = ['merry_go_round'];
+        }
+
         if ($previewImage !== null)
         {
             $object->images = [
