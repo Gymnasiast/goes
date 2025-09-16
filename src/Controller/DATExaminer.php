@@ -4,8 +4,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use RCTPHP\RCT2\Object\DATDetector;
+use RCTPHP\RCT2\Object\DATHeader;
+use RCTPHP\RCT2\Object\ObjectType;
+use RCTPHP\RCT2\Object\SceneryGroupObject;
 use RCTPHP\Sawyer\Object\StringTable;
 use RCTPHP\Sawyer\Object\StringTableOwner;
+use RCTPHP\Sawyer\Object\WithPreview;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,6 +80,21 @@ final class DATExaminer extends AbstractController
             }
         }
 
+        $image = null;
+        if ($object instanceof WithPreview)
+        {
+            ob_start();
+            $image = $object->getPreview();
+            imagepalettetotruecolor($image);
+            imagewebp($image);
+            $image = base64_encode(ob_get_clean());
+        }
+        $referencedObjects = [];
+        if ($object instanceof SceneryGroupObject)
+        {
+            $referencedObjects = $object->objects;
+        }
+
         return $this->render('dat-examiner.html.twig', [
             'title' => 'DAT Examiner',
             'bodyClass' => 'dat-examiner',
@@ -86,9 +105,11 @@ final class DATExaminer extends AbstractController
             'checksum' => $header->getChecksumFormatted(),
             'originalId' => $header->getAsOriginalId(),
             'sceneryGroupEntry' => $header->getAsSceneryGroupListEntry(),
-            'objectType' => $typeMap[$header->getType()] ?? 'Unknown',
+            'objectType' => $typeMap[$header->getType()->value] ?? 'Unknown',
             'shortDescription' => $shortDescription,
             'stringTables' => $stringTables,
+            'image' => $image,
+            'referencedObjects' => $referencedObjects,
         ]);
     }
 }

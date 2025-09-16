@@ -31,7 +31,32 @@
             {% endif %}
         </table>
 
-        {% if (objectType == 'Scenario Text') %}
+        {% if (image) %}
+            <h2>Preview</h2>
+            <div>
+                <img src="data:image/webp;base64,{{ image|raw }}" alt="Preview image of this object" width="112" height="112">
+            </div>
+        {% endif %}
+
+        {% if (objectType == 'Scenery group') %}
+            <h2>Referenced objects</h2>
+            <div>
+                <table class="table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>originalId</th>
+                        <th>Scenery group entry</th>
+                    </tr>
+                    </thead>
+                    {% for refHeader in referencedObjects %}
+                        <tr>
+                            <td><pre>{{ refHeader.getAsOriginalId() }}</pre></td>
+                            <td><pre>{{ refHeader.getAsSceneryGroupListEntry() }}</pre></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% elseif (objectType == 'Scenario Text') %}
             <h2>Scenario name</h2>
             <table>
                 <thead>
@@ -89,6 +114,7 @@
             </table>
 
         {% endif %}
+
     {% endif %}
 
 {% endblock %}
