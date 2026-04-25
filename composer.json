@@ -1,4 +1,6 @@
 {
+    "name": "gymnasiast/goes",
+    "description": "Gymnasiast’s Object Editor Site",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "efdebca36a92c8ddf5757c9abea1d9f4",
+    "content-hash": "a4bc7ff27cf69b45567386bd61baf47b",
     "packages": [
         {
             "name": "cyndaron/binary-handler",
