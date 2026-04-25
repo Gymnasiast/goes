@@ -22,6 +22,9 @@ use function explode;
 use function imagecreatefrompng;
 use function strtolower;
 use function trim;
+use function asort;
+use function imagesx;
+use function imagesy;
 
 final class Music extends AbstractController
 {
@@ -47,9 +50,12 @@ final class Music extends AbstractController
     #[Route('/music', methods: ['POST'])]
     public function process(Request $request): Response
     {
-        try {
+        try
+        {
             return $this->buildObject($request);
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex)
+        {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -77,7 +83,9 @@ final class Music extends AbstractController
             /** @var UploadedFile|null $upload */
             $upload = $request->files->get("track_{$i}_upload");
             if ($upload === null)
+            {
                 continue;
+            }
 
             $mimeType = $upload->getMimeType();
             if (!array_key_exists($mimeType, self::FILE_FORMAT))
@@ -93,9 +101,13 @@ final class Music extends AbstractController
                 'source' => $newFilename,
             ];
             if ($trackName)
+            {
                 $entry['name'] = $trackName;
+            }
             if ($composer)
+            {
                 $entry['composer'] = $composer;
+            }
 
             $tracks[] = $entry;
             $filemap[$upload->getPathname()] = $newFilename;
@@ -153,15 +165,21 @@ final class Music extends AbstractController
         /** @var UploadedFile|null $previewImage */
         $previewImage = $request->files->get('preview_image');
         if ($previewImage === null)
+        {
             return null;
+        }
 
         /** @var GdImage|false $image */
         $image = @imagecreatefrompng($previewImage->getPathname());
         if ($image === false)
+        {
             throw new RuntimeException('Not a valid PNG!');
+        }
 
         if (imagesx($image) !== 112 || imagesy($image) !== 112)
+        {
             throw new RuntimeException('Image size is incorrect, please upload a PNG file with 112 × 112 pixels!');
+        }
 
         return $previewImage;
     }

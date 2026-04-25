@@ -43,6 +43,13 @@ use function strtolower;
 use function tempnam;
 use function unlink;
 use function var_dump;
+use function imagecolorset;
+use function exec;
+use function imagecreatetruecolor;
+use function imagecolorallocate;
+use function floor;
+use function imagesetpixel;
+use function imagebmp;
 
 final class Palette extends AbstractController
 {
@@ -148,11 +155,14 @@ final class Palette extends AbstractController
     #[Route('/palette', methods: ['POST'])]
     public function process(Request $request): Response
     {
-        try {
+        try
+        {
             $object = $this->buildObject($request);
             $zipper = new Zipper($object);
             return $zipper->getResponse();
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex)
+        {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -177,13 +187,16 @@ final class Palette extends AbstractController
     #[Route('/palette/preview', methods: ['POST'])]
     public function preview(Request $request): Response
     {
-        try {
+        try
+        {
             $object = $this->buildObject($request);
             $previewImageFilename = __DIR__ . '/../../assets/palette-preview.png';
             $previewImage = imagecreatefrompng($previewImageFilename);
             $image = $this->applyAnimatedPalette($previewImage, $object);
             return $this->createImageResponse($image);
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex)
+        {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -220,11 +233,14 @@ final class Palette extends AbstractController
                 return new JsonResponse(['error' => "File mime type {$mimeType} not supported!"], Response::HTTP_BAD_REQUEST);
         }
 
-        try {
+        try
+        {
             $object = $this->buildObject($request);
             $image = $this->applyAnimatedPalette($previewImage, $object);
             return $this->createImageResponse($image);
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex)
+        {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -279,7 +295,7 @@ final class Palette extends AbstractController
         $ret = exec($stitchcommand);
         foreach ($images as $imageName)
         {
-           // @unlink($imageName);
+            // @unlink($imageName);
         }
 
         var_dump($stitchcommand);
@@ -365,7 +381,8 @@ final class Palette extends AbstractController
         ];
         $object->properties = new WaterProperties(
             $allowDucks,
-            new WaterPropertiesPalettes([
+            new WaterPropertiesPalettes(
+                [
                     WaterPaletteGroup::GENERAL->value => new \RCTPHP\Sawyer\ImageTable\Palette(10, 236, $rgbGeneral),
                     WaterPaletteGroup::WAVES_0->value => new \RCTPHP\Sawyer\ImageTable\Palette(16, 15, $rgbWaves0),
                     WaterPaletteGroup::WAVES_1->value => new \RCTPHP\Sawyer\ImageTable\Palette(32, 15, $rgbWaves1),
@@ -374,7 +391,6 @@ final class Palette extends AbstractController
                     WaterPaletteGroup::SPARKLES_1->value => new \RCTPHP\Sawyer\ImageTable\Palette(96, 15, $rgbSparkles1),
                     WaterPaletteGroup::SPARKLES_2->value => new \RCTPHP\Sawyer\ImageTable\Palette(112, 15, $rgbSparkles2),
                 ]
-
             )
         );
 
@@ -405,7 +421,8 @@ final class Palette extends AbstractController
             "output.bmp",
         );
         return new StreamedResponse(
-            callback: function() use ($image) {
+            callback: function() use ($image)
+            {
                 imagebmp($image);
             },
             headers: [

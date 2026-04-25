@@ -23,7 +23,8 @@ final class Zipper
 
         $zip = new ZipArchive();
         $zipFilename = tempnam('/tmp', 'zip');
-        if ($zip->open($zipFilename, ZipArchive::CREATE) !== true) {
+        if ($zip->open($zipFilename, ZipArchive::CREATE) !== true)
+        {
             throw new \Exception("Cannot create zipfile!");
         }
 

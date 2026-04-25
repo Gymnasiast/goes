@@ -34,6 +34,9 @@ use function str_pad;
 use function strtolower;
 use function tempnam;
 use const STR_PAD_LEFT;
+use function count;
+use function strtoupper;
+use function imagecopy;
 
 final class SceneryGroup extends AbstractController
 {
@@ -55,9 +58,12 @@ final class SceneryGroup extends AbstractController
     #[Route('/scenery-group', methods: ['POST'])]
     public function process(Request $request): Response
     {
-        try {
+        try
+        {
             return $this->buildObject($request);
-        } catch (Exception $ex) {
+        }
+        catch (Exception $ex)
+        {
             return new JsonResponse([
                 'error' => $ex->getMessage(),
             ], Response::HTTP_BAD_REQUEST);
@@ -186,15 +192,21 @@ final class SceneryGroup extends AbstractController
         /** @var UploadedFile|null $previewImage */
         $previewImage = $request->files->get('preview_image');
         if ($previewImage === null)
+        {
             return [];
+        }
 
         /** @var GdImage|false $image */
         $image = @imagecreatefrompng($previewImage->getPathname());
         if ($image === false)
+        {
             throw new RuntimeException('Not a valid PNG!');
+        }
 
         if (imagesx($image) !== 29 || imagesy($image) !== 25)
+        {
             throw new RuntimeException('Image size is incorrect, please upload a PNG file with 29 × 25 pixels!');
+        }
 
         $imageUnselected = @imagecreatefrompng(self::TAB_PREVIEW_UNSELECTED);
         $imageSelected  = @imagecreatefrompng(self::TAB_PREVIEW_SELECTED);

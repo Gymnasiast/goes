@@ -15,6 +15,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Cyndaron\BinaryHandler\BinaryReader;
+use function reset;
+use function trim;
+use function ob_start;
+use function imagepalettetotruecolor;
+use function imagewebp;
+use function base64_encode;
+use function ob_get_clean;
 
 final class DATExaminer extends AbstractController
 {
