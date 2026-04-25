@@ -16,8 +16,7 @@ final class Zipper
         private readonly BaseObject $object,
         /** @var array<string, string> */
         private readonly array $fileMap = []
-    )
-    {
+    ) {
     }
 
     public function getZipContents(): string
