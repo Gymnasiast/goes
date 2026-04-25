@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use ZipArchive;
 use function array_key_exists;
 use function array_keys;
@@ -37,6 +37,7 @@ use const STR_PAD_LEFT;
 use function count;
 use function strtoupper;
 use function imagecopy;
+use function is_string;
 
 final class SceneryGroup extends AbstractController
 {
@@ -88,10 +89,14 @@ final class SceneryGroup extends AbstractController
             throw new Exception('Could not decode list of objects to include!');
         }
 
+        /** @var string[] $entriesList */
         $entriesList = [];
         foreach ($identifiers as $identifier)
         {
-            $entriesList[] = $identifier;
+            if (is_string($identifier))
+            {
+                $entriesList[] = $identifier;
+            }
         }
 
         $previewImages = $this->addPreviewImages($request);
