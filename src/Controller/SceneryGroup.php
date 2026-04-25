@@ -144,7 +144,7 @@ final class SceneryGroup extends AbstractController
         }
 
         $extension = strtolower($object->getClientOriginalExtension());
-        if ($extension === 'dat')
+        if ($extension === 'dat' || $extension === 'pob')
         {
             $reader = BinaryReader::fromFile($object->getPathname());
             $header = DATHeader::fromReader($reader);
