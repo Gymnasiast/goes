@@ -1,0 +1,29 @@
+parameters:
+    bootstrapFiles:
+        - .phpstan_bootstrap.php
+    checkMissingIterableValueType: true
+    polluteScopeWithLoopInitialAssignments: false
+    polluteScopeWithAlwaysIterableForeach: false
+    checkAlwaysTrueInstanceof: true
+    checkExplicitMixedMissingReturn: true
+    checkFunctionNameCase: true
+    reportMaybesInMethodSignatures: true
+    reportStaticMethodSignatures: true
+    strictRules:
+    		allRules: false
+
+includes:
+    - phpstan-baseline.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+
+rules:
+	- PHPStan\Rules\Classes\RequireParentConstructCallRule
+	- PHPStan\Rules\DisallowedConstructs\DisallowedImplicitArrayCreationRule
+	- PHPStan\Rules\Methods\WrongCaseOfInheritedMethodRule
+	- PHPStan\Rules\Operators\OperandInArithmeticPostDecrementRule
+	- PHPStan\Rules\Operators\OperandInArithmeticPostIncrementRule
+	- PHPStan\Rules\Operators\OperandInArithmeticPreDecrementRule
+	- PHPStan\Rules\Operators\OperandInArithmeticPreIncrementRule
+	- PHPStan\Rules\StrictCalls\DynamicCallOnStaticMethodsRule
+	- PHPStan\Rules\StrictCalls\StrictFunctionCallsRule
+	- PHPStan\Rules\SwitchConditions\MatchingTypeInSwitchCaseConditionRule

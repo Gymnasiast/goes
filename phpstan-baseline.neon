@@ -1,0 +1,131 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method App\\\\Base\\\\Zipper\\:\\:getZipContents\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: src/Base/Zipper.php
+
+		-
+			message: "#^Cannot call method getPathname\\(\\) on mixed\\.$#"
+			count: 1
+			path: src/Controller/DATExaminer.php
+
+		-
+			message: "#^Offset 0\\|1\\|2\\|3\\|4\\|5\\|6\\|7\\|8\\|9\\|10 on array\\{'Ride', 'Small scenery', 'Large scenery', 'Wall', 'Banner', 'Footpath', 'Footpath item', 'Scenery group', \\.\\.\\.\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Controller/DATExaminer.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function base64_encode expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/Controller/DATExaminer.php
+
+		-
+			message: "#^Method App\\\\Controller\\\\Music\\:\\:getTempDir\\(\\) is unused\\.$#"
+			count: 1
+			path: src/Controller/Music.php
+
+		-
+			message: "#^Offset 'audio/ogg' on array\\{audio/ogg\\: 'ogg'\\} on left side of \\?\\? always exists and is not nullable\\.$#"
+			count: 1
+			path: src/Controller/Music.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of function array_key_exists expects int\\|string, string\\|null given\\.$#"
+			count: 1
+			path: src/Controller/Music.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function trim expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 2
+			path: src/Controller/Music.php
+
+		-
+			message: "#^Parameter \\#2 \\$string of function explode expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: src/Controller/Music.php
+
+		-
+			message: "#^Property RCTPHP\\\\OpenRCT2\\\\Object\\\\BaseObject\\:\\:\\$version \\(string\\) does not accept float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\|true\\.$#"
+			count: 1
+			path: src/Controller/Music.php
+
+		-
+			message: "#^Parameter \\#1 \\$content of class Symfony\\\\Component\\\\HttpFoundation\\\\Response constructor expects string\\|null, string\\|false given\\.$#"
+			count: 1
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Parameter \\#1 \\$hex of static method RCTPHP\\\\Util\\\\RGB\\:\\:fromHex\\(\\) expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 8
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Parameter \\#1 \\$image of method App\\\\Controller\\\\Palette\\:\\:applyAnimatedPalette\\(\\) expects GdImage, GdImage\\|false given\\.$#"
+			count: 2
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of method App\\\\Controller\\\\Palette\\:\\:checkJson\\(\\) expects string, string\\|false given\\.$#"
+			count: 2
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Parameter \\#2 \\$string of function explode expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Parameter \\#4 \\$color of function imagesetpixel expects int, int\\<0, max\\>\\|false given\\.$#"
+			count: 1
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Property RCTPHP\\\\OpenRCT2\\\\Object\\\\BaseObject\\:\\:\\$version \\(string\\) does not accept float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\|true\\.$#"
+			count: 1
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 2
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Variable \\$index might not be defined\\.$#"
+			count: 6
+			path: src/Controller/Palette.php
+
+		-
+			message: "#^Parameter \\#1 \\$dst_image of function imagecopy expects GdImage, GdImage\\|false given\\.$#"
+			count: 2
+			path: src/Controller/SceneryGroup.php
+
+		-
+			message: "#^Parameter \\#1 \\$image of function imagepng expects GdImage, GdImage\\|false given\\.$#"
+			count: 1
+			path: src/Controller/SceneryGroup.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of method App\\\\Controller\\\\SceneryGroup\\:\\:getFromJson\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: src/Controller/SceneryGroup.php
+
+		-
+			message: "#^Parameter \\#2 \\$array of function array_key_exists expects array, mixed given\\.$#"
+			count: 1
+			path: src/Controller/SceneryGroup.php
+
+		-
+			message: "#^Parameter \\#2 \\$string of function explode expects string, bool\\|float\\|int\\|string\\|null given\\.$#"
+			count: 1
+			path: src/Controller/SceneryGroup.php
+
+		-
+			message: "#^Parameter \\$priority of class RCTPHP\\\\OpenRCT2\\\\Object\\\\SceneryGroupProperties constructor expects int, float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\|true given\\.$#"
+			count: 1
+			path: src/Controller/SceneryGroup.php
+
+		-
+			message: "#^Property RCTPHP\\\\OpenRCT2\\\\Object\\\\BaseObject\\:\\:\\$version \\(string\\) does not accept float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\|true\\.$#"
+			count: 1
+			path: src/Controller/SceneryGroup.php
