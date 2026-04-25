@@ -12,7 +12,11 @@ use function unlink;
 
 final class Zipper
 {
-    public function __construct(private readonly BaseObject $object, private readonly array $fileMap = [])
+    public function __construct(
+        private readonly BaseObject $object,
+        /** @var array<string, string> */
+        private readonly array $fileMap = []
+    )
     {
     }
 
