@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d06d672bf82994142150633a562a1755",
+    "content-hash": "c5f29f4d19e8644f5f5f849b6c475ae7",
     "packages": [
         {
             "name": "cyndaron/binary-handler",
@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Cyndaron/binary-handler.git",
-                "reference": "5e01ad2810bc5a552c79e6327630598dddf554cf"
+                "reference": "11cd944bd0eaa70a4ac424c8b2803c49f29ad530"
             },
             "require": {
                 "php": ">=8.1"
@@ -43,7 +43,51 @@
                 "MIT"
             ],
             "description": "Read and write binary files easily",
-            "time": "2023-12-14T13:25:56+00:00"
+            "time": "2026-10-09T20:14:38+00:00"
+        },
+        {
+            "name": "cyndaron/pcx",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Cyndaron/pcx.git",
+                "reference": "1b69230a48ef5225cdca2783d903000916878ee4"
+            },
+            "require": {
+                "cyndaron/binary-handler": "dev-master",
+                "ext-gd": "*",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "phpstan/phpstan": "*",
+                "phpstan/phpstan-strict-rules": "2.1.x-dev"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cyndaron\\PCX\\": "src/"
+                },
+                "files": [
+                    "functions.php"
+                ]
+            },
+            "scripts": {
+                "phpstan": [
+                    "vendor/bin/phpstan analyse src --level 9"
+                ],
+                "cs-check": [
+                    "vendor/bin/php-cs-fixer fix src/ --allow-risky=yes --dry-run --diff"
+                ],
+                "cs-fix": [
+                    "vendor/bin/php-cs-fixer fix src/ --allow-risky=yes"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "time": "2026-10-09T20:31:48+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -345,16 +389,16 @@
         },
         {
             "name": "gymnasiast/rct-php",
-            "version": "v1.5.3",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gymnasiast/RCT-PHP.git",
-                "reference": "2cae080d7facd0365b324313b8bab599903f93d1"
+                "reference": "922f7d020a6f0a8ce4d5e0a2580d0bf5c3c4da06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/2cae080d7facd0365b324313b8bab599903f93d1",
-                "reference": "2cae080d7facd0365b324313b8bab599903f93d1",
+                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/922f7d020a6f0a8ce4d5e0a2580d0bf5c3c4da06",
+                "reference": "922f7d020a6f0a8ce4d5e0a2580d0bf5c3c4da06",
                 "shasum": ""
             },
             "require": {
@@ -389,10 +433,10 @@
                 "MIT"
             ],
             "support": {
-                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.5.3",
+                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.6.0",
                 "issues": "https://github.com/Gymnasiast/RCT-PHP/issues"
             },
-            "time": "2025-09-17T00:26:07+00:00"
+            "time": "2026-10-09T20:34:43+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -10099,7 +10143,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "cyndaron/binary-handler": 20
+        "cyndaron/binary-handler": 20,
+        "cyndaron/pcx": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

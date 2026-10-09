@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Base\Metadata;
 use App\Base\Zipper;
+use Cyndaron\PCX\PCXImage;
 use Exception;
 use GdImage;
 use RCTPHP\ExternalTools\RCT2PaletteMakerFile;
@@ -14,7 +15,6 @@ use RCTPHP\OpenRCT2\Object\WaterProperties;
 use RCTPHP\OpenRCT2\Object\WaterPropertiesPalettes;
 use RCTPHP\RCT2\Object\DATDetector;
 use RCTPHP\RCT2\Object\WaterObject;
-use RCTPHP\Util\PCX\PCXImage;
 use RCTPHP\Util\RGB;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
