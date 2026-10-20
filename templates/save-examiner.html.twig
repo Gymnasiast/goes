@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GOES - {{ title }}{% endblock %}
+{% block content %}
+
+<h1>Save examiner</h1>
+
+    <p>This allow one to upload any valid RCT1 or RCT2 save or scenario and look at some of the metadata.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="save" accept=".sv4,.sc4,.sv6,.sc6,.sv7">
+        <input type="submit" class="btn btn-primary" value="Examine">
+    </form>
+
+    {% if (error) %}
+        <div class="alert alert-warning">{{ error|raw }}</div>
+    {% endif %}
+    {% if (result) %}
+        <h2>Research list</h2>
+
+        <h3>Invented</h3>
+        <ul>
+            {% for item in inventedItems %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Uninvented</h3>
+        <ul>
+            {% for item in uninventedItems %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Random pairs</h3>
+        <ul>
+            {% for item in randomPairs %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block extraStyles %}
+    <link rel="stylesheet" href="{{ asset('css/save-examiner.css') }}"/>
+{% endblock extraStyles %}

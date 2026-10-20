@@ -7,6 +7,7 @@ twig:
             /scenery-group: Scenery Groups
             /palette: Palettes
             /dat-examiner: DAT Examiner
+            /save-examiner: Save Examiner (BETA)
 when@test:
     twig:
         strict_variables: true
