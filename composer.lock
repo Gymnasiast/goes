@@ -389,16 +389,16 @@
         },
         {
             "name": "gymnasiast/rct-php",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gymnasiast/RCT-PHP.git",
-                "reference": "922f7d020a6f0a8ce4d5e0a2580d0bf5c3c4da06"
+                "reference": "8e9a9d62cd2312b3f7b0f3d209f45a5d1f189d5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/922f7d020a6f0a8ce4d5e0a2580d0bf5c3c4da06",
-                "reference": "922f7d020a6f0a8ce4d5e0a2580d0bf5c3c4da06",
+                "url": "https://api.github.com/repos/Gymnasiast/RCT-PHP/zipball/8e9a9d62cd2312b3f7b0f3d209f45a5d1f189d5e",
+                "reference": "8e9a9d62cd2312b3f7b0f3d209f45a5d1f189d5e",
                 "shasum": ""
             },
             "require": {
@@ -433,10 +433,10 @@
                 "MIT"
             ],
             "support": {
-                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.6.0",
+                "source": "https://github.com/Gymnasiast/RCT-PHP/tree/v1.6.1",
                 "issues": "https://github.com/Gymnasiast/RCT-PHP/issues"
             },
-            "time": "2026-10-09T20:34:43+00:00"
+            "time": "2026-10-29T21:36:47+00:00"
         },
         {
             "name": "monolog/monolog",
